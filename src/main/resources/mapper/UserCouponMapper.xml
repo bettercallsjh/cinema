@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pmsj.cinema.common.mapper.UserCouponMapper">
+    <resultMap id="BaseResultMap" type="com.pmsj.cinema.common.entity.UserCoupon">
+        <id column="user_coupon_id" jdbcType="INTEGER" property="userCouponId"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="coupon_id" jdbcType="INTEGER" property="couponId"/>
+        <result column="coupon_status" jdbcType="INTEGER" property="couponStatus"/>
+        <result column="coupon_date" jdbcType="DATE" property="couponDate"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_coupon
+    where user_coupon_id = #{userCouponId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.pmsj.cinema.common.entity.UserCoupon">
+    insert into user_coupon (user_coupon_id, user_id, coupon_id, 
+      coupon_status, coupon_date)
+    values (#{userCouponId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{couponId,jdbcType=INTEGER}, 
+      #{couponStatus,jdbcType=INTEGER}, #{couponDate,jdbcType=DATE})
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="com.pmsj.cinema.common.entity.UserCoupon">
+    update user_coupon
+    set user_id = #{userId,jdbcType=INTEGER},
+      coupon_id = #{couponId,jdbcType=INTEGER},
+      coupon_status = #{couponStatus,jdbcType=INTEGER},
+      coupon_date = #{couponDate,jdbcType=DATE}
+    where user_coupon_id = #{userCouponId,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select user_coupon_id, user_id, coupon_id, coupon_status, coupon_date
+    from user_coupon
+    where user_coupon_id = #{userCouponId,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select user_coupon_id, user_id, coupon_id, coupon_status, coupon_date
+    from user_coupon
+  </select>
+
+
+    <resultMap id="BaseResultMap2" type="com.pmsj.cinema.common.vo.UserCouponVo">
+
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="coupon_id" jdbcType="INTEGER" property="couponId"/>
+        <result column="coupon_status" jdbcType="INTEGER" property="couponStatus"/>
+        <result column="coupon_date" jdbcType="DATE" property="couponDate"/>
+        <result column="condition_id" jdbcType="DATE" property="conditionId"/>
+        <result column="movie_id" jdbcType="DATE" property="movieId"/>
+        <result column="cinema_id" jdbcType="DATE" property="cinemaId"/>
+        <result column="coupon_name" jdbcType="DATE" property="couponName"/>
+        <result column="coupon_moeny" jdbcType="DATE" property="couponMoeny"/>
+        <result column="cinema_name" jdbcType="DATE" property="cinemaName"/>
+        <result column="movie_name" jdbcType="DATE" property="movieName"/>
+
+
+    </resultMap>
+
+    <select id="selectAllByUserId" resultMap="BaseResultMap2">
+    select *
+    from user_coupon uc
+    LEFT JOIN coupon c
+    on c.coupon_id = uc.coupon_id
+    LEFT JOIN `condition` con
+    on con.coupon_id =c.coupon_id
+    LEFT JOIN movie m
+    on m.movie_id = con.movie_id
+    LEFT JOIN cinema cinema
+    on cinema.cinema_id = con.cinema_id
+    where uc.user_id = #{userId}
+    and uc.coupon_date &gt;= #{date}
+    and uc.coupon_status = 1
+
+    </select>
+
+
+    <select id="getAllOverCoupon" resultMap="BaseResultMap2">
+        select *
+        from user_coupon uc
+        LEFT JOIN coupon c
+        on c.coupon_id = uc.coupon_id
+        LEFT JOIN `condition` con
+        on con.coupon_id =c.coupon_id
+        LEFT JOIN movie m
+        on m.movie_id = con.movie_id
+        LEFT JOIN cinema cinema
+        on cinema.cinema_id = con.cinema_id
+        where uc.user_id = #{userId}
+        and uc.coupon_date &lt; #{date}
+        and uc.coupon_status = 1
+    </select>
+
+
+</mapper>

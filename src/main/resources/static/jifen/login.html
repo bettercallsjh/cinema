@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>登录</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/core.css"/>
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="css/login.css"/>
+    <script src="../js/layer/layer.js"></script>
+	<script src="../js/vue.js"></script>
+
+	<script src="js/main.js"></script>
+</head>
+<body>
+<header>
+    <div class="logo">
+    </div>
+</header>
+<section>
+    <div class="content">
+        <div class="login-newbg">
+        </div>
+        <div class="content-layout">
+            <div class="login-box-warp">
+                <div class="bd">
+                    <h2>会员登陆 <span style="font-size: 11px;color: #8e979e;float: right"><a href="#">忘记密码?</a></span></h2>
+                    <div class="form-group">
+                        <label class="sr-only" for="username"></label>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="glyphicon glyphicon-user"></i>
+                            </div>
+                            <input type="text" class="form-control" id="username" placeholder="用户名">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="pwd"></label>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="glyphicon glyphicon-user"></i>
+                            </div>
+                            <input type="password" class="form-control" id="pwd" placeholder="密码">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="verify"></label>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="glyphicon glyphicon-user"></i>
+                            </div>
+                            <input type="text" class="form-control" id="verify" placeholder="验证码">
+                            <div class="input-group-addon">
+                                <img src="picture/captcha.html" id="codeImg" alt="captcha"
+                                     style="width:120px;height: 20px" onclick="javascript:this.src='/captcha.html';"/>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-success btn-block btn-lg" id="jax" type="button">登陆</button>
+                    <input type="hidden" name="__token__" value="2e3c9fed29f5a8a2784161a12c1eff23"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/notify.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/main.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    $(function () {
+        $('#jax').bind('click', login);
+
+        function login() {
+            var username = $('#username').val(), pwd = $('#pwd').val(), verify = $('#verify').val();
+            var obj = $('#jax');
+            obj.unbind('click');
+            $.post("", {username: username, pwd: pwd, verify: verify}, function (data) {
+                $('#codeImg').attr('src', "/captcha.html");
+                if (data.code == 1) {
+                    success(data.msg, function () {
+                        location.href = "/";
+                    })
+                } else {
+                    error(data.msg, function () {
+                        obj.bind('click', login)
+                    });
+                }
+            })
+        }
+    });
+</script>
+</body>
+</html>

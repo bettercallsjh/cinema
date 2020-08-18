@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pmsj.cinema.common.mapper.CouponConditionMapper">
+  <resultMap id="BaseResultMap" type="com.pmsj.cinema.common.entity.CouponCondition">
+    <result column="coupon_id" jdbcType="INTEGER" property="couponId" />
+    <result column="condition_id" jdbcType="CHAR" property="conditionId" />
+  </resultMap>
+  <insert id="insert" parameterType="com.pmsj.cinema.common.entity.CouponCondition">
+    insert into coupon_condition (coupon_id, condition_id)
+    values (#{couponId,jdbcType=INTEGER}, #{conditionId,jdbcType=CHAR})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select coupon_id, condition_id
+    from coupon_condition
+  </select>
+</mapper>

@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <link href="unpan/blue/css/style.css" rel="stylesheet" type="text/css">
+    <link href="unpan/blue/css/account.css" rel="stylesheet" type="text/css">
+    <link href="unpan/blue/css/pager.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="unpan/dist/js/jquery.min.js"></script>
+    <script src="../js/layer/layer.js"></script>
+    <script src="../js/vue.js"></script>
+    <!-- 引入组件库 -->
+    <script src="/"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui@2.4.7/lib/theme-chalk/index.css">
+
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+    <title>猫眼电影 | 交易管理</title>
+    <style>
+        * {
+
+        }
+
+        .allOrder * {
+            box-sizing: border-box;
+
+        }
+
+        .allOrder {
+            margin-bottom: 26px;
+        }
+
+        .allOrder_top {
+            font-weight: bold;
+            box-sizing: border-box;
+            border: #e6e6e6 solid 1px;
+            padding: 6px;
+            background-color: #f4f5f9;
+        }
+
+        .allOrder_top .order_time {
+            margin-right: 10px;
+        }
+
+        .allOrder_center {
+            border: #e6e6e6 solid 1px;
+            box-sizing: border-box;
+            height: 120px;
+
+        }
+
+        .allOrder_center div {
+            display: inline-block;
+            float: left;
+            /*float: left;*/
+        }
+
+        .allOrder_center .allOrder_0 {
+            /*width: 300px;*/
+        }
+
+        .allOrder_center .allOrder_0 img {
+            border: 1px solid #cccccc;
+            height: 120px;
+        }
+
+        .allOrder_center .allOrder_1 {
+            height: 120px;
+            width: 300px;
+            text-align: left;
+            padding: 10px;
+            padding-top: 20px;
+
+            /*line-height: 120px;*/
+        }
+
+        .allOrder_1 .cinemaName {
+            font-size: 14px;
+        }
+
+
+        .allOrder_1 .movieTilte {
+            font-size: 17px;
+            font-weight: bold;
+            color: #b90505;
+        }
+
+        .allOrder_2 {
+            line-height: 120px;
+            font-size: 18px;
+            color: #d80101;
+        }
+
+        .allOrder_1 p {
+            height: 10px;
+        }
+
+        .allOrder_3 {
+            line-height: 120px;
+            margin-right: 18px;
+            font-size: 16px;
+        }
+
+        #limit {
+            /*float: right;*/
+            display: inline-block;
+            margin-left: 300px;
+            width: 300px;
+            line-height: 30px;
+        }
+
+        #limit button {
+            margin: 0;
+            padding: 0;
+            background-color: #0e4354;
+            border: 0px solid #00bd97;
+            color: white;
+            outline: none;
+            width: 75px;
+            height: 30px;
+        }
+
+        .select {
+            background-color: #1E9FFF;
+        }
+
+        #limit span {
+            display: inline-block;
+            width: 30px;
+            color: white;
+            text-align: center;
+            background-color: #7c898e;
+            margin-left: 4px;
+
+        }
+    </style>
+</head>
+<body style="position: static;">
+<!--[if IE]>
+<script src="unpan/blue/js/html5shiv.js"></script>
+<![endif] -->
+<!-- top 部分 start-->
+<section class="top" id="topSection">
+    <div class="layout clearfix">
+        <ul class="fl topL">
+            <li class="weixin">
+                <a href="#">
+                    微信公众号<span class="icon"></span>
+                    <img class="disNone" src="unpan/blue/src/code.jpg" alt="蜗牛积分">
+                </a>
+            </li>
+            <li class="cusmer">
+                <a href="#">
+                    咨询客服
+                    <span class="icon"></span>
+                </a>
+                <div class="cusmerQList disNone">
+                    <dl>
+                        <dt>您可能遇到的常见问题？</dt>
+                        <dd>
+                            <a href="#" target="_blank">蜗牛积分的公司介绍有么？</a>
+                            <a href="#" target="_blank">如何设置提现的电子钱包账户？</a>
+                            <a href="#" target="_blank">他的公司资质和运营是怎么样的？</a>
+                            <a href="#" target="_blank">关于投资和提现有什么费用吗？</a>
+                            <a href="#" target="_blank">我的密码忘记了怎么办？</a>
+                            <a href="#" target="_blank">投资利息从什么时候开始计算？</a>
+                            <a href="#" target="_blank">蜗牛积分的安全保障有哪些？</a>
+                        </dd>
+                    </dl>
+                    <div class="clearfix cusmerQFoot bgGreen">
+                        <span class="fl fcWhite">工作日 9:00-18:00</span>
+                        <a class="fr" href="#" target="_blank">在线咨询</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <ul class="fr topR">
+            <li><a href="#" target="_blank">当前IP：220.188.65.89</a></li>
+            <li><a href="#">中国未知城市</a></li>
+        </ul>
+    </div>
+</section>
+<!-- top 部分 end-->
+<!-- header start-->
+<div id="mainVue">
+    <button-counter flag="3"></button-counter>
+</div>
+<script src="js/main.js"></script>
+
+
+<div id="memberNav">
+    <div class="layout">
+        <ul>
+            <li class="curr">
+                <a href="#">交易中心</a>
+            </li>
+
+        </ul>
+    </div>
+</div>
+<!--用户中心导航 end-->
+
+<!--投资管理-->
+<div class="height18"></div>
+<div class="layout member">
+    <div class="mApp"></div>
+    <div class="borderGray bgWhite clearfix">
+        <div id="subnav">
+            <dl>
+                <dt><i></i>订单记录</dt>
+                <dd class="curr"><a href="transaction.html">全部订单</a></dd>
+                <dd><a href="#">分红明细</a></dd>
+            </dl>
+            <dl>
+                <dt><i></i>优惠券</dt>
+                <dd><a href="coupons.html">我的优惠券</a></dd>
+                <dd><a href="overCoupons.html">已失效优惠券</a></dd>
+            </dl>
+        </div>
+        <div id="memberMain">
+
+            <div class="title"><h4>我的订单</h4></div>
+            <div class="height18"></div>
+            <div class="memberList clearfix">
+                <div class="tableClass" id="app">
+                    <el-dialog title="订单详情" :visible.sync="dialogFormVisible">
+                        <el-row>
+
+                            <el-col :span="24">
+                                <div class="grid-content bg-purple-light " style="background-color: #303133">
+                                    <template>
+                                        <el-table
+                                                :data="movieTable"
+                                                style="width: 100%">
+                                            <el-table-column
+                                                    prop="movieName"
+                                                    label="影片名称"
+                                                    width="252"
+                                            >
+                                            </el-table-column>
+                                            <el-table-column
+                                                    prop="orderCount"
+                                                    label="数量"
+                                                    width="252"
+                                            >
+                                            </el-table-column>
+                                            <el-table-column
+                                                    prop="orderUnitprice"
+                                                    label="单价"
+                                                    width="252"
+                                            >
+                                            </el-table-column>
+                                        </el-table>
+                                    </template>
+
+                                </div>
+                            </el-col>
+
+                        </el-row>
+                        <hr>
+                        <el-row style="text-align: right">
+
+                            <span v-if="form.orderTotalInitialCash != form.orderTotalDiscountsCash"
+                                  style="margin-right: 10px">优惠：-{{couponMoeny}}</span>
+                            合计：
+                            <span v-if="form.orderTotalInitialCash != form.orderTotalDiscountsCash">
+
+                                  <span style="margin-right: 10px"> <del>{{form.orderTotalInitialCash}}</del>
+                                  <span style="color: #F56C6C ;font-weight: bold">{{form.orderTotalDiscountsCash}}</span></span>
+                            </span>
+
+                            <span v-else>
+                                  <span style="color: #F56C6C ;font-weight: bold">{{form.orderTotalDiscountsCash}}</span></span>
+                            </span>
+
+                        </el-row>
+                        <el-row>
+                            <el-col :span="2">
+                                <div class="grid-content bg-purple" style="line-height: 32px; font-weight: bold;">
+                                    开始时间
+                                </div>
+                            </el-col>
+                            <el-col :span="5">
+                                <div class="grid-content bg-purple" style="line-height:32px; ">
+                                    {{form.orderTime}}
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <br>
+                        <el-row>
+                            <el-col :span="2">
+                                <div class="grid-content bg-purple" style="line-height: 32px; font-weight: bold;">
+                                    影院名称
+                                </div>
+                            </el-col>
+                            <el-col :span="22">
+                                <div class="grid-content bg-purple">
+                                    <span style="line-height: 32px;">{{form.cinemaName}}</span>
+                                    <el-tag effect="dark" type="warning" style="height: auto;line-height:normal">
+                                        {{form.hallName}}
+                                    </el-tag>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <br>
+
+                        <el-row>
+                            <el-col :span="2">
+                                <div class="grid-content bg-purple" style="line-height: 32px; font-weight: bold;">
+                                    影院地址
+                                </div>
+                            </el-col>
+                            <el-col :span="22">
+                                <div class="grid-content bg-purple">
+                                    <span style="line-height: 32px;">{{location}}</span>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <br>
+
+                        <el-row>
+                            <el-col :span="2">
+                                <div class="grid-content bg-purple" style="line-height: 32px; font-weight: bold;">
+                                    座位
+                                </div>
+                            </el-col>
+                            <el-col :span="22">
+                                <div class="grid-content bg-purple">
+                                    <el-tag type="success" v-for="seat in form.seatList" style="margin-right: 3px">
+                                        {{seat.seatName}}
+                                    </el-tag>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <br>
+
+                        <el-row>
+                            <el-col :span="2">
+                                <div class="grid-content bg-purple" style="line-height: 32px; font-weight: bold;">
+                                    订单号
+                                </div>
+                            </el-col>
+                            <el-col :span="22">
+                                <div class="grid-content bg-purple" style="line-height: 32px;">
+                                    {{form.orderNo}}
+                                </div>
+                            </el-col>
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="2">
+                                <div class="grid-content bg-purple" style="line-height: 32px; font-weight: bold;">
+                                    取票码
+                                </div>
+                            </el-col>
+                            <el-col :span="22">
+                                <div class="grid-content bg-purple" style="line-height: 32px;">
+                                    <img style="width: 200px" :src="'http://api.pwmqr.com/qrcode/create/?url='+form.orderNo">
+                                </div>
+                            </el-col>
+                        </el-row>
+
+                    </el-dialog>
+
+                    <div class="allOrder" v-for="(order,index) in orders.list">
+                        <div class="allOrder_top">
+                            <span class="order_time">{{order.orderTime}}</span>
+                            <span class="order_no">订单号：{{order.orderNo}}</span>
+                        </div>
+                        <div class="allOrder_center">
+                            <div class="allOrder_0">
+                                <img :src="order.movieImg">
+                            </div>
+                            <div class="allOrder_1">
+                                <span class="movieTilte">《{{order.movieName}}》</span>
+                                <p></p>
+                                <span class="cinemaName" style="margin-left: 10px"> {{order.cinemaName}}</span>
+                                <p></p>
+                                <li style="margin-left: 10px"></li>
+                                {{order.hallName}}
+                                <span v-for="seat in order.seatList">
+                                    {{seat.seatName}}
+                                </span>
+                                <p></p>
+                            </div>
+                            <div class="allOrder_2">
+                                ￥{{order.orderTotalDiscountsCash}}
+                            </div>
+                            <div class="allOrder_3" style="float: right;">
+                                <el-button @click="openDetails(order.orderId)">详情</el-button>
+                            </div>
+                            <div class="allOrder_3" style="float: right;">
+                                <span v-if="order.orderStatus == 0">
+                                    已取消
+                                </span>
+                                <span v-if="order.orderStatus == 1">
+                                    未支付
+                                </span>
+                                <span v-if="order.orderStatus == 2">
+                                    已支付
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div id="limit">
+                        <button @click="goPage(orders.prePage)">上一页</button>
+
+                        <span v-for="num in orders.pages" @click="goPage(num)">
+                            <num v-if="num == orders.pageNum" style="color: #35ff02">{{num}} </num>
+                            <num v-else>
+                                {{num}}
+                            </num>
+                        </span>
+
+                        <button @click="goPage(orders.nextPage)">下一页</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+</div>
+
+
+<!--[if IE 6]>
+<script src=unpan/bule/js/png24.js></script>
+<script>
+    DD_belatedPNG.fix('*');
+</script>
+<![endif]-->
+
+<script type="text/javascript" src="unpan/blue/js/public.js"></script>
+
+<script type="text/javascript">
+
+</script>
+<footer class="bgBlack fc999">
+    <section class="aboutUs">
+        <div class="layout clearfix ">
+            <dl class="fl ml30">
+                <dt><span class="icon" style="background-color: #21398b"></span>关于我们</dt>
+                <dd><a href="#" target="_blank">蜗牛简介</a></dd>
+                <dd><a href="#" target="_blank">平台资质</a></dd>
+                <dd><a href="#" target="_blank">蜗牛荣誉</a></dd>
+                <dd><a href="#" target="_blank">帮助中心</a></dd>
+                <dd><a href="#" target="_blank">联系我们</a></dd>
+            </dl>
+            <dl class="fl">
+                <dt><span class="icon" style="background-color: #fda800"></span>平台服务</dt>
+                <dd><a href="#" target="_blank">蜗牛平台</a></dd>
+                <dd><a href="#" target="_blank">蜗牛社区</a></dd>
+            </dl>
+            <dl class="fl">
+                <dt><span class="icon bgGreen"></span>相关链接</dt>
+                <dd><a href="#" target="_blank">合作伙伴</a></dd>
+                <dd><a href="#" target="_blank">媒体链接</a></dd>
+            </dl>
+            <div class="line"></div>
+            <div class="fl service">
+                <p></p>
+                <h2>客服电话: 0579--85059659</h2><br>(工作时间：9:00-18:00)<p></p>
+            </div>
+        </div>
+    </section>
+</footer>
+
+
+</body>
+
+<!-- <script src="index.js"></script> -->
+<script>
+    let vue = new Vue({
+        el: '#app',
+        data: {
+            a: 1,
+            orders: [],
+            allMoney: 0,
+            orderCount: 0,
+            dialogFormVisible: false,
+            form: {},
+            movieTable: [],
+            formLabelWidth: '120px',
+            location: "",
+            couponMoeny: '',
+        },
+
+
+        methods: {
+            goPage(page) {
+                let _this = this;
+                let url = "/PersonalCentreController/getAllOrderByUser?currentPage=" + page;
+
+                $.get(url, null, function (data) {
+                    _this.orders = data;
+                });
+            },
+            openDetails: function (id) {
+                this.dialogFormVisible = true;
+                let _this = this;
+                _this.movieTable = [];
+
+
+                $.get("/PersonalCentreController/getCinemaById", {id: id}, function (data) {
+                    _this.location = "" + data.cinemaCity + data.cinemaArea + data.cinemaLocation
+                });
+
+                $.get("/PersonalCentreController/getOrderById?id=" + id, null, function (data) {
+                    _this.form = data;
+                    let movie = {
+                        movieName: data.movieName,
+                        orderCount: "X" + data.orderCount,
+                        orderUnitprice: data.orderUnitprice
+                    }
+
+                    if (data.couponId) {
+
+                        $.get("/PersonalCentreController/getCouponById", {id: data.couponId}, function (data) {
+                            console.log(data);
+                            _this.couponMoeny = data.couponMoeny
+                        });
+                    }
+
+
+                    _this.movieTable.push(movie);
+
+                })
+            }
+        },
+        beforeMount: function () {
+            // `this` 指向 vm 实例
+            let _this = this;
+            let url = "/PersonalCentreController/getAllOrderByUser";
+
+            $.get(url, null, function (data) {
+                _this.orders = data;
+            });
+
+        }
+    });
+
+</script>
+</html>

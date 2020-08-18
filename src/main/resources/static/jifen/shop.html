@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <link href="unpan/blue/css/style.css" rel="stylesheet" type="text/css">
+    <link href="unpan/blue/css/shop.css" rel="stylesheet" type="text/css">
+    <link href="unpan/blue/css/introjs.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="unpan/dist/js/jquery.min.js"></script>
+    <link href="unpan/blue/css/dialog.css" rel="stylesheet" type="text/css">
+    <link href="unpan/blue/css/jquery.mloading.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="unpan/blue/js/dialog.min.js"></script>
+    <script src="../js/vue.js"></script>
+    <script type="text/javascript" src="unpan/blue/js/jquery.mloading.js"></script>
+    <script src="../js/layer/layer.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        function success(msg, fun) {
+            $.cxDialog({
+                title: '消息提示',
+                info: msg,
+                closeBtn: false
+            });
+            setTimeout(function () {
+                $.cxDialog.close();
+                fun()
+            }, 2000);
+        }
+
+        function error(msg, fun) {
+            $.cxDialog({
+                title: '消息提示',
+                info: msg,
+                closeBtn: false
+            });
+            setTimeout(function () {
+                $.cxDialog.close();
+                fun()
+            }, 2000);
+        }
+
+        function confirm(info, fun, nfun) {
+            $.cxDialog({
+                title: '消息提示',
+                info: info,
+                okText: '确认购买',
+                noText: '我再想想',
+                ok: function () {
+                    fun()
+                },
+                no: function () {
+                    $.cxDialog.close();
+                }
+            });
+        }
+    </script>
+    <title>蜗牛时代 | 积分商城</title>
+</head>
+<body style="position: static;">
+<!--[if IE]>
+<script src="unpan/blue/js/html5shiv.js"></script>
+<![endif] -->
+<!-- top 部分 start-->
+<section class="top" id="topSection">
+    <div class="layout clearfix">
+        <ul class="fl topL">
+            <li class="weixin">
+                <a href="#">
+                    微信公众号
+                    <span class="icon"></span>
+                    <img class="disNone" src="unpan/blue/src/code.jpg" alt="蜗牛积分">
+                </a>
+            </li>
+            <li class="cusmer">
+                <a href="#">
+                    咨询客服
+                    <span class="icon"></span>
+                </a>
+                <div class="cusmerQList disNone">
+                    <dl>
+                        <dt>您可能遇到的常见问题？</dt>
+                        <dd>
+                            <a href="#" target="_blank">蜗牛积分的公司介绍有么？</a>
+                            <a href="#" target="_blank">如何设置提现的电子钱包账户？</a>
+                            <a href="#" target="_blank">他的公司资质和运营是怎么样的？</a>
+                            <a href="#" target="_blank">关于投资和提现有什么费用吗？</a>
+                            <a href="#" target="_blank">我的密码忘记了怎么办？</a>
+                            <a href="#" target="_blank">投资利息从什么时候开始计算？</a>
+                            <a href="#" target="_blank">蜗牛积分的安全保障有哪些？</a>
+                        </dd>
+                    </dl>
+                    <div class="clearfix cusmerQFoot bgGreen">
+                        <span class="fl fcWhite">工作日 9:00-18:00</span>
+                        <a class="fr" href="#" target="_blank">在线咨询</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <ul class="fr topR">
+            <li><a href="#" target="_blank">当前IP：220.188.65.89</a></li>
+            <li><a href="#">中国未知城市</a></li>
+        </ul>
+    </div>
+</section>
+<!-- top 部分 end-->
+<!-- header start-->
+<header id="topHeader">
+    <div class="layout clearfix">
+        <a class="logo" href="#">
+            <img class="fl" id="topLogo" src="unpan/blue/src/logo.png" style="height: 74px;width: 328px" alt="让投资实现梦想">
+        </a>
+        <!-- 导航菜单 -->
+        <nav class="fl">
+            <ul class="fl menu">
+                <li>
+                    <a href="index.html" rel="nofollow">首&nbsp;&nbsp;&nbsp;页</a>
+                </li>
+                <li>
+                    <a href="shop.html" rel="nofollow">积分商城</a>
+                </li>
+                <li>
+                    <a href="transaction.html" rel="nofollow">交易管理</a>
+                </li>
+                <li class="curr">
+                    <a href="account.html" rel="nofollow">账户管理</a>
+                </li>
+                <li>
+                    <a href="help.html" rel="nofollow">帮助中心</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- 用户已登录的显示信息 -->
+        <div class="fr user">
+            <div class="navList">
+                <div class="userTitle">
+                    <a href="#">v18767938957<span class="icon"></span></a>
+                </div>
+                <ul class="list bgWhite shadow ">
+                    <li><a href="#" target="_blank">我要充值</a></li>
+                    <li><a href="#">我要提现</a></li>
+                    <li><a href="#">我的投资</a></li>
+                    <li><a href="#">推荐好友</a></li>
+                    <li><a href="#">我的奖励</a></li>
+                    <li><a href="#" class="noBorder">退出登录</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+<section>
+    <div class="layout clearfix">
+        <div class="productSort">
+            <dl class="clearfix layout bgWhite shadow">
+                <dt class="fl">积分商城</dt>
+                <dd class="fl">
+                    <ul class="fl productSortType">
+                        <li class="sortLi">
+                            <a class="typeLink" data-iscleck="-1" href="#">积分专区<i></i></a>
+                            <ul class="childNav saleStatus">
+                                <li><a href="#">积分专区</a></li>
+                                <li><a href="#">复消专区</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </dd>
+                <dd class="fr">
+                    <ul class="fl productSortType">
+                        <li class="sortLi" data-step="3" data-intro="添加完毕点击下面的购物车完成付款" data-position='top'>
+                            <a id="cartCount" class="typeLink" data-iscleck="-1" href="#">购物车&nbsp;(3)<i></i></a>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+        <!-- 排序区 end -->
+        <!-- 左侧辅助信息 start -->
+        <aside class="fl column">
+            <dl class="financialData shadow mb20" style="margin-top: 10px;">
+                <dt class="bgGreen"><i class="icon"></i></dt>
+                <dd class="bgWhite" data-step="1" data-intro="购买产品只能使用下列的积分" data-position='top'>
+                    <ul>
+                        <li>电子积分 <em>0.00</em> 元</li>
+                        <li>复消积分 <em>420.00</em> 元</li>
+                    </ul>
+                </dd>
+            </dl>
+            <!-- 常见问题 start -->
+            <dl class="bgWhite shadow questionList mb20">
+                <dt>常见问题<a href="#" target="_blank">更多&gt;</a></dt>
+                <dd>
+                    <a class="link666" href="#" target="_blank">如何获得电子积分？<i class="icon hot"></i></a>
+                    <a class="link666" href="#" target="_blank">关于复消积分的问题？<i class="icon new"></i></a>
+                    <a class="link666" href="#" target="_blank">如何购买商品？</a>
+                    <a class="link666" href="#" target="_blank">如何修改电子钱包账户？</a>
+                    <a class="link666" href="#" target="_blank">我购买了商品多长时间发货？</a>
+                </dd>
+            </dl>
+            <!-- 常见问题 end -->
+        </aside>
+        <!-- 左侧辅助信息 end -->
+        <article class="fr sidebar productList fc666">
+            <!-- 商品列表 start-->
+            <div class="product youxuan ">
+                <div class="bgWhite shadow mb10" style="width: 33%;height: 350px;float: left">
+                    <div>
+                        <a href="#">
+                            <img src="unpan/blue/src/product/p5.jpg"
+                                 style="width:280px;height:280px;padding:5px 0px;display: block;margin: auto;" alt="">
+                        </a>
+                    </div>
+                    <div style="padding: 2px 5px">
+                        <p>
+                            梅乐干红
+                        </p>
+                    </div>
+                    <div class="fl" style="padding: 6px 5px">
+                        <p>
+                            ￥2000
+                        </p>
+                    </div>
+                    <div class="fr" style="padding: 2px 5px">
+                        <button type="button" class="buyCart" onclick="addCart('5')">加入购物车</button>
+                    </div>
+                </div>
+                <div class="bgWhite shadow mb10" style="width: 33%;height: 350px;float: left">
+                    <div>
+                        <a href="#">
+                            <img src="unpan/blue/src/product/p3.jpg"
+                                 style="width:280px;height:280px;padding:5px 0px;display: block;margin: auto;" alt="">
+                        </a>
+                    </div>
+                    <div style="padding: 2px 5px">
+                        <p>
+                            铁皮石斛
+                        </p>
+                    </div>
+                    <div class="fl" style="padding: 6px 5px">
+                        <p>
+                            ￥5000
+                        </p>
+                    </div>
+                    <div class="fr" style="padding: 2px 5px">
+                        <button type="button" class="buyCart" onclick="addCart('6')">加入购物车</button>
+                    </div>
+                </div>
+                <div class="bgWhite shadow mb10" style="width: 33%;height: 350px;float: left">
+                    <div>
+                        <a href="#">
+                            <img src="unpan/blue/src/product/p1.jpg"
+                                 style="width:280px;height:280px;padding:5px 0px;display: block;margin: auto;" alt="">
+                        </a>
+                    </div>
+                    <div style="padding: 2px 5px">
+                        <p>
+                            铁皮枫斗
+                        </p>
+                    </div>
+                    <div class="fl" style="padding: 6px 5px">
+                        <p>
+                            ￥10000
+                        </p>
+                    </div>
+                    <div class="fr" style="padding: 2px 5px">
+                        <button data-step="2" data-intro="选择你喜欢产品点击加入购物车" type="button" class="buyCart"
+                                onclick="addCart('1')">加入购物车
+                        </button>
+                    </div>
+                </div>
+                <div class="bgWhite shadow mb10" style="width: 33%;height: 350px;float: left">
+                    <div>
+                        <a href="#">
+                            <img src="unpan/blue/src/product/p2.jpg"
+                                 style="width:280px;height:280px;padding:5px 0px;display: block;margin: auto;" alt="">
+                        </a>
+                    </div>
+                    <div style="padding: 2px 5px">
+                        <p>
+                            铁皮枫斗
+                        </p>
+                    </div>
+                    <div class="fl" style="padding: 6px 5px">
+                        <p>
+                            ￥20000
+                        </p>
+                    </div>
+                    <div class="fr" style="padding: 2px 5px">
+                        <button type="button" class="buyCart" onclick="addCart('2')">加入购物车</button>
+                    </div>
+                </div>
+                <div class="bgWhite shadow mb10" style="width: 33%;height: 350px;float: left">
+                    <div>
+                        <a href="#">
+                            <img src="unpan/blue/src/product/p4.jpg"
+                                 style="width:280px;height:280px;padding:5px 0px;display: block;margin: auto;" alt="">
+                        </a>
+                    </div>
+                    <div style="padding: 2px 5px">
+                        <p>
+                            高档铁皮枫斗
+                        </p>
+                    </div>
+                    <div class="fl" style="padding: 6px 5px">
+                        <p>
+                            ￥50000
+                        </p>
+                    </div>
+                    <div class="fr" style="padding: 2px 5px">
+                        <button type="button" class="buyCart" onclick="addCart('4')">加入购物车</button>
+                    </div>
+                </div>
+            </div>
+            <!-- 商品列表 end-->
+        </article>
+    </div>
+</section>
+<!--[if IE 6]>
+<script src="unpan/bule/js/png24.js"></script>
+<script>
+    DD_belatedPNG.fix('*');
+</script>
+<![endif]-->
+<script type="text/javascript" src="unpan/blue/js/public.js"></script>
+<script type="text/javascript" src="unpan/blue/js/intro.js"></script>
+<script type="text/javascript">
+    var carCount = 3;
+    introJs().setOptions({
+        prevLabel: "上一步",
+        nextLabel: '下一步',
+        skipLabel: '跳过帮助',
+        doneLabel: '结束帮助'
+    }).start();
+
+    function addCart(id) {
+        $('body').mLoading('show');
+        $.post('/shop/shop-info', {sid: id}, function (data) {
+            $('body').mLoading('hide');
+            if (data.code == 1) {
+                success(data.msg, function () {
+                    carCount = carCount + 1;
+                    $('#cartCount').html('购物车(' + carCount + ")<i></i>");
+                })
+            } else {
+                $('body').mLoading('hide');
+                error(data.msg, function () {
+                })
+            }
+        })
+    }
+</script>
+<footer class="bgBlack fc999">
+    <section class="aboutUs">
+        <div class="layout clearfix ">
+            <dl class="fl ml30">
+                <dt><span class="icon" style="background-color: #21398b"></span>关于我们</dt>
+                <dd><a href="#" target="_blank">蜗牛简介</a></dd>
+                <dd><a href="#" target="_blank">平台资质</a></dd>
+                <dd><a href="#" target="_blank">蜗牛荣誉</a></dd>
+                <dd><a href="#" target="_blank">帮助中心</a></dd>
+                <dd><a href="#" target="_blank">联系我们</a></dd>
+            </dl>
+            <dl class="fl">
+                <dt><span class="icon" style="background-color: #fda800"></span>平台服务</dt>
+                <dd><a href="#" target="_blank">蜗牛平台</a></dd>
+                <dd><a href="#" target="_blank">蜗牛社区</a></dd>
+            </dl>
+            <dl class="fl">
+                <dt><span class="icon bgGreen"></span>相关链接</dt>
+                <dd><a href="#" target="_blank">合作伙伴</a></dd>
+                <dd><a href="#" target="_blank">媒体链接</a></dd>
+            </dl>
+            <div class="line">
+            </div>
+            <div class="fl service">
+                <p>
+                </p>
+                <h2>客服电话: 0579--85059659</h2>
+                <br>
+                (工作时间：9:00-18:00)
+                <p>
+                </p>
+            </div>
+        </div>
+    </section>
+</footer>
+</body>
+</html>

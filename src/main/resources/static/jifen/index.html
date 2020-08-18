@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <link href="unpan/blue/css/style.css" rel="stylesheet" type="text/css">
+    <link href="unpan/blue/css/index.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="unpan/blue/css/swiper.min.css">
+    <script type="text/javascript" src="unpan/dist/js/jquery.min.js"></script>
+    <link href="unpan/blue/css/dialog.css" rel="stylesheet" type="text/css">
+    <link href="unpan/blue/css/jquery.mloading.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="unpan/blue/js/dialog.min.js"></script>
+    <script type="text/javascript" src="unpan/blue/js/jquery.mloading.js"></script>
+    <script src="../js/vue.js"></script>
+    <script src="../js/layer/layer.js"></script>
+    <script src="js/main.js"></script>
+
+    <style>
+
+        .base-one-circle {
+            width: 50px;
+            height: 50px;
+            position: relative;
+            background: radial-gradient(circle at 0px 50px, transparent 10px, #28A4F2 0) top
+            /*filter: drop-shadow(3px 3px 3px rgba(0, 0, 0, .3))*/
+        }
+
+        .base-coupons {
+            margin: 0 auto;
+            width: 220px;
+            height: 100px;
+            margin-bottom: 30px;
+            position: relative;
+            background: radial-gradient(circle at right top, transparent 10px, #f2b92d 0) top left / 60px 51% no-repeat,
+            radial-gradient(circle at right bottom, transparent 10px, #f2d941 0) bottom left /60px 51% no-repeat,
+            radial-gradient(circle at left top, transparent 10px, #eeeeee 0) top right /190px 51% no-repeat,
+            radial-gradient(circle at left bottom, transparent 10px, #eeeeee 0) bottom right /190px 51% no-repeat;
+            /*filter: drop-shadow(3px 3px 3px rgba(0, 0, 0, .3));*/
+        }
+
+        .base-coupons::before {
+            content: '';
+            height: 80px;
+            border: 1px dashed #fff;
+            position: absolute;
+            left: 60px;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+        }
+
+        .base-coupons::after {
+            content: '';
+            position: absolute;
+            height: 100%;
+            width: 5px;
+            top: 0;
+            right: -5px;
+            background-image: linear-gradient(to bottom, #eeeeee 5px, transparent 5px, transparent),
+            radial-gradient(10px circle at 5px 10px, transparent 5px, #eeeeee 5px);
+            background-size: 5px 15px;
+        }
+
+    </style>
+    <script>
+        function success(msg, fun) {
+            $.cxDialog({
+                title: '消息提示',
+                info: msg,
+                closeBtn: false
+            });
+            setTimeout(function () {
+                $.cxDialog.close();
+                fun()
+            }, 2000);
+        }
+
+
+        function error(msg, fun) {
+            $.cxDialog({
+                title: '消息提示',
+                info: msg,
+                closeBtn: false
+            });
+            setTimeout(function () {
+                $.cxDialog.close();
+                fun()
+            }, 2000);
+        }
+
+        function confirm(info, fun, nfun) {
+            $.cxDialog({
+                title: '消息提示',
+                info: info,
+                okText: '确认购买',
+                noText: '我再想想',
+                ok: function () {
+                    fun()
+                },
+                no: function () {
+                    $.cxDialog.close();
+                }
+            });
+        }
+    </script>
+    <title>蜗牛时代 | 首页</title>
+</head>
+<body style="position: static;">
+<!--[if IE]>
+<script src="unpan/blue/js/html5shiv.js"></script>
+<![endif] -->
+<!-- top 部分 start-->
+
+<div id="app">
+    <section class="top" id="topSection">
+        <div class="layout clearfix">
+            <ul class="fl topL">
+                <li class="weixin">
+                    <a href="#">
+                        微信公众号<span class="icon"></span>
+                        <img class="disNone" src="unpan/blue/src/code.jpg" alt="蜗牛积分">
+                    </a>
+                </li>
+                <li class="cusmer">
+                    <a href="#">
+                        咨询客服
+                        <span class="icon"></span>
+                    </a>
+                    <div class="cusmerQList disNone">
+                        <dl>
+                            <dt>您可能遇到的常见问题？</dt>
+                            <dd>
+                                <a href="#" target="_blank">蜗牛积分的公司介绍有么？</a>
+                                <a href="#" target="_blank">如何设置提现的电子钱包账户？</a>
+                                <a href="#" target="_blank">他的公司资质和运营是怎么样的？</a>
+                                <a href="#" target="_blank">关于投资和提现有什么费用吗？</a>
+                                <a href="#" target="_blank">我的密码忘记了怎么办？</a>
+                                <a href="#" target="_blank">投资利息从什么时候开始计算？</a>
+                                <a href="#" target="_blank">蜗牛积分的安全保障有哪些？</a>
+                            </dd>
+                        </dl>
+                        <div class="clearfix cusmerQFoot bgGreen">
+                            <span class="fl fcWhite">工作日 9:00-18:00</span>
+                            <a class="fr" href="#" target="_blank">在线咨询</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <ul class="fr topR">
+                <li><a href="#" target="_blank">当前IP：220.188.65.89</a></li>
+                <li><a href="#">中国未知城市</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- top 部分 end-->
+    <!-- header start-->
+    <button-counter flag="1"></button-counter>
+    <!-- 平台数据 start -->
+    <section class="menu_banner">
+        <div class="layout">
+            <!-- banner start -->
+            <article class="imgBanner" style="height: 400px;">
+                <div class="swiper-container gallery-top">
+                    <div class="swiper-wrapper"
+                         style="width: 8400px; height: 400px; transform: translate3d(-6000px, 0px, 0px); transition-duration: 0.3s;">
+                        <div class="swiper-slide swiper-slide-duplicate" style="width: 1200px; height: 400px;">
+                            <a target="_blank" href="#">
+                                <img
+                                        src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1594549390484&di=2bb89cf1cc716a2921b311677a0fbb1f&imgtype=0&src=http%3A%2F%2Fp1.meituan.net%2Fmovie%2F78afe6dceeb6c895ed649b960f82a93a343579.gif%40750w_1l"
+                                        style="width: 100%; height: 100%"/></a>
+                        </div>
+                        <div class="swiper-slide" style="width: 1200px; height: 400px;">
+                            <a target="_blank" href="#"><img src="unpan/blue/src/banner/2.jpg"></a>
+                        </div>
+                        <div class="swiper-slide" style="width: 1200px; height: 400px;">
+                            <a target="_blank" href="#"><img src="unpan/blue/src/banner/3.jpg"></a>
+                        </div>
+                        <div class="swiper-slide" style="width: 1200px; height: 400px;">
+                            <a target="_blank" href="#"><img src="unpan/blue/src/banner/4.jpg"></a>
+                        </div>
+                        <div class="swiper-slide" style="width: 1200px; height: 400px;">
+                            <a target="_blank" href="#"><img src="unpan/blue/src/banner/5.jpg"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="textList">
+
+                </div>
+                <div class="pagination">
+                    <span class="swiper-pagination-switch" style="width: 239px;"></span>
+                    <span class="swiper-pagination-switch" style="width: 239px;"></span>
+                    <span class="swiper-pagination-switch" style="width: 239px;"></span>
+                    <span class="swiper-pagination-switch" style="width: 239px;"></span>
+                    <span class="swiper-pagination-switch swiper-visible-switch swiper-active-switch"
+                          style="width: 239px;"></span>
+                </div>
+            </article>
+            <!-- banner end -->
+        </div>
+    </section>
+    <section class="dataInfo">
+        <div class="layout bgWhite">
+            <div class="dataContent clearfix">
+                <span>电子积分余额(元)<em class="data">0.00</em></span>
+                <span>复消积分余额(元)<em class="data">420.00</em></span>
+                <span class="middle2">当前蜗牛币价格(元)<em class="data">2.68</em></span>
+                <div class="last">
+                    <i class="icon"></i>
+                    <div class="noticeList">
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper"
+                                 style="width: 285px; height: 300px; transform: translate3d(0px, -200px, 0px); transition-duration: 0.3s;">
+                                <div class="swiper-slide swiper-slide-duplicate" style="width: 285px; height: 50px;">
+                                    <a href="#" target="_blank">
+                                        关于二次释放原始币公告
+                                    </a>
+                                    <span class="time fc666">06-30</span>
+                                </div>
+                                <div class="swiper-slide" style="width: 285px; height: 50px;">
+                                    <a href="#" target="_blank">
+                                        关于原始币释放公告
+                                    </a>
+                                    <span class="time fc666">06-26</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="more link999" href="#">更多&gt;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- 平台数据 end -->
+    <!-- 公告 start -->
+    <section class="areaList explosion">
+        <div class="layout clearfix">
+            <!-- start -->
+            <aside class="fl areaType bgWhite newer">
+                <div class="areaName">
+                    <a class="link_t link999" href="" target="_blank">账户管理&gt;</a>
+                </div>
+                <div class="clearfix">
+                    <p class="notice fl">
+                        电影，积分、优惠劵，快速查看订单。
+                        <br>
+                        总消费量：{{orderCount}}
+                    </p>
+                    <div class="fr detail">
+                        <div class="rateInfo">
+                            <span class="rate fcDeepRed"><em>{{allMoney}}</em></span>
+                            <span class="rateNotice fc666">总消费额</span>
+                        </div>
+                    </div>
+                </div>
+                <a class="link_c link333" href="transaction.html">查看全部订单 &gt;</a>
+            </aside>
+            <!--end -->
+            <!-- tart -->
+            <aside class="fl areaType bgWhite boom">
+                <div class="areaName">
+                    <h4>积分</h4>
+                    <!--                <a class="link_t link999" href="#">积分 &gt;</a>-->
+                </div>
+                <div class="clearfix">
+                    <div class="detail">
+                        <div class="rateInfo">
+                            <p>
+                                当前剩余积分：
+                            </p>
+                            <span class="rate fcDeepRed"><em>{{user.userPoints}}</em> </span>
+                            <div class="pgSpeed">
+					<span class="pgLine" data-speed="1">
+					<span class="bgRed" style="width:70%"></span>
+					</span>
+                                <!--                            <span class="fcRed pgText"><em>99</em>%</span>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="goInvest">
+                        <a href="#"></a>
+                    </div>
+                </div>
+            </aside>
+            <!-- end -->
+            <aside class="fl areaType bgWhite noticeList">
+                <div class="areaName">
+                    <h4>相关简介</h4>
+                    <a class="link_t link999" href="#">更多&gt;</a>
+                </div>
+                <ul class="clearfix nList cgNotice">
+                    <li>
+                        <a href="#">
+                            【简介】为您提供良好购票体验...
+                        </a>
+                        <span class="fc666 data">02-23</span>
+                    </li>
+                    <li>
+                        <a href="#">
+                            【商城简介】“积分商城”...
+                        </a>
+                        <span class="fc666 data">02-23</span>
+                    </li>
+                    <li>
+                        <a href="#">
+                            【产品简介】积分购买优惠劵...
+                        </a>
+                        <span class="fc666 data">02-23</span>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+    </section>
+    <!-- end -->
+    <!-- start -->
+    <section class="areaList productList youxuan">
+        <div class="layout">
+            <div class="listCon bgWhite clearfix">
+                <a class="fl areaType" href="#">
+                    <div class="areaName">
+                        <h4>积分购劵</h4>
+                    </div>
+                    <p class="notice fc333">
+                        为电影票大打折扣
+                    </p>
+                    <span class="link_c link666">进入影片专区使用 &gt;</span>
+                </a>
+                <article class="fl">
+                    <ul class="pList fl">
+                        <li class="bgWhite">
+                            <a href="javascript:void(0);" onclick="addCart('1',200)">
+                                <div class="hBk">
+                                </div>
+                                <input type="hidden" value="500">
+                                <h4 style="color: #fa5e3e;font-size: 12px"><b>200积分</b></h4>
+                                <div class="pContent">
+                                    <div class="base-coupons">
+                                        <div style="margin-left:50px">
+                                            <p>优惠券</p>
+                                            <span>立减2元<br>
+                                                限两天内使用
+                                        </span>
+                                        </div>
+                                    </div>
+                                    <div class="view downTimeC">
+                                        <span class="link333 link_s">购买</span>
+                                    </div>
+                                    <span class="icon" style="background:none;"><img src="unpan/blue/src/model1.png"
+                                                                                     style="height: 100%; width: 100%;"></span>
+                                </div>
+                                <div class="fBk">
+                                </div>
+                            </a>
+                        </li>
+                        <li class="bgWhite">
+                            <a href="javascript:void(0);" onclick="addCart('2',500)">
+                                <div class="hBk">
+                                </div>
+                                <input type="hidden" value="500">
+                                <h4 style="color: #fa5e3e;font-size: 12px"><b>500积分</b></h4>
+                                <div class="pContent">
+                                    <div class="base-coupons">
+                                        <div style="margin-left:50px">
+                                            <p>优惠券</p>
+                                            <span>立减5元<br>
+                                                限两天内使用
+                                        </span>
+                                        </div>
+                                    </div>
+                                    <div class="view downTimeC">
+                                        <span class="link333 link_s">购买</span>
+                                    </div>
+                                    <span class="icon" style="background:none;">
+                                        <img src="unpan/blue/src/model1.png" style="height: 100%; width: 100%;">
+                                    </span>
+                                </div>
+                                <div class="fBk">
+                                </div>
+                            </a>
+                        </li>
+                        <li class="bgWhite">
+                            <a href="javascript:void(0);" onclick="addCart('3',1000)">
+                                <div class="hBk">
+                                </div>
+                                <input type="hidden" value="500">
+                                <h4 style="color: #fa5e3e;font-size: 12px"><b>1000积分</b></h4>
+                                <div class="pContent">
+                                    <div class="base-coupons">
+                                        <div style="margin-left:50px">
+                                            <p>优惠券</p>
+                                            <span>立减10元<br>
+                                                限两天内使用
+                                        </span>
+                                        </div>
+                                    </div>
+                                    <div class="view downTimeC">
+                                        <span class="link333 link_s">购买</span>
+                                    </div>
+                                    <span class="icon" style="background:none;"><img src="unpan/blue/src/model1.png"
+                                                                                     style="height: 100%; width: 100%;"></span>
+                                </div>
+                                <div class="fBk">
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="bgWhite">
+                            <a href="javascript:void(0);" onclick="addCart('4',2000)">
+                                <div class="hBk">
+                                </div>
+                                <input type="hidden" value="500">
+                                <h4 style="color: #fa5e3e;font-size: 12px"><b>2000积分</b></h4>
+                                <div class="pContent">
+                                    <div class="base-coupons">
+                                        <div style="margin-left:50px">
+                                            <p>优惠券</p>
+                                            <span>立减20元<br>
+                                                限两天内使用
+                                        </span>
+                                        </div>
+                                    </div>
+                                    <div class="view downTimeC">
+                                        <span class="link333 link_s">购买</span>
+                                    </div>
+                                    <span class="icon" style="background:none;">
+                                        <img src="unpan/blue/src/model1.png" style="height: 100%; width: 100%;">
+                                    </span>
+                                </div>
+                                <div class="fBk">
+                                </div>
+                            </a>
+                        </li>
+
+                    </ul>
+                </article>
+            </div>
+        </div>
+    </section>
+    <!-- end -->
+    <!-- start -->
+    <section class="areaList productList xiaofei">
+        <div class="layout">
+            <div class="listCon bgWhite clearfix">
+                <a class="fl areaType" href="#">
+                    <div class="areaName">
+                        <h4>复消产品</h4>
+                    </div>
+                    <p class="notice fc333">
+                        复消积分购买，不产生原始积分。
+                    </p>
+                    <span class="link_c link666">进入专区 &gt;</span>
+                </a>
+                <article class="fl">
+                    <ul class="pList fl">
+                        <li class="bgWhite last">
+                            <a href="#" onclick="addCart('1')">
+                                <div class="hBk">
+                                </div>
+                                <h4>￥10,000.00</h4>
+                                <div class="pContent">
+                                    <div class="rateInfo">
+                                        <img src="unpan/blue/src/product/p1.jpg" style="width: 115px;height: 115px"
+                                             alt="">
+                                        <span class="rate fcDeepRed ">
+					</span>
+                                    </div>
+                                    <div class="view">
+                                        <span class="link333 link_s">加入购物车</span>
+                                    </div>
+                                    <span class="icon2"></span>
+                                </div>
+                                <div class="fBk">
+                                </div>
+                            </a>
+                        </li>
+                        <li class="bgWhite last">
+                            <a href="#" onclick="addCart('2')">
+                                <div class="hBk">
+                                </div>
+                                <h4>￥20,000.00</h4>
+                                <div class="pContent">
+                                    <div class="rateInfo">
+                                        <img src="unpan/blue/src/product/p2.jpg" style="width: 115px;height: 115px"
+                                             alt="">
+                                        <span class="rate fcDeepRed ">
+					</span>
+                                    </div>
+                                    <div class="view">
+                                        <span class="link333 link_s">加入购物车</span>
+                                    </div>
+                                    <span class="icon2"></span>
+                                </div>
+                                <div class="fBk">
+                                </div>
+                            </a>
+                        </li>
+                        <li class="bgWhite last">
+                            <a href="#" onclick="addCart('4')">
+                                <div class="hBk">
+                                </div>
+                                <h4>￥50,000.00</h4>
+                                <div class="pContent">
+                                    <div class="rateInfo">
+                                        <img src="unpan/blue/src/product/p4.jpg" style="width: 115px;height: 115px"
+                                             alt="">
+                                        <span class="rate fcDeepRed ">
+					</span>
+                                    </div>
+                                    <div class="view">
+                                        <span class="link333 link_s">加入购物车</span>
+                                    </div>
+                                    <span class="icon2"></span>
+                                </div>
+                                <div class="fBk">
+                                </div>
+                            </a>
+                        </li>
+                        <li class="bgWhite last">
+                            <a href="#" onclick="addCart('5')">
+                                <div class="hBk">
+                                </div>
+                                <h4>￥2,000.00</h4>
+                                <div class="pContent">
+                                    <div class="rateInfo">
+                                        <img src="unpan/blue/src/product/p5.jpg" style="width: 115px;height: 115px"
+                                             alt="">
+                                        <span class="rate fcDeepRed ">
+					</span>
+                                    </div>
+                                    <div class="view">
+                                        <span class="link333 link_s">加入购物车</span>
+                                    </div>
+                                    <span class="icon2"></span>
+                                </div>
+                                <div class="fBk">
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </article>
+            </div>
+        </div>
+    </section>
+    <!-- 在线客服浮层 start -->
+    <div id="adLayer" style="width: 50px;">
+        <div class="ask ">
+            <a href="#" class="adLayerBg"></a>
+            <div class="askClass cusmerQList" style="display: none;">
+                <dl>
+                    <dt>您可能遇到的常见问题？</dt>
+                    <dd>
+                        <a href="#" target="_blank">蜗牛积分的公司介绍有么？</a>
+                        <a href="#" target="_blank">如何设置提现的电子钱包账户？</a>
+                        <a href="#" target="_blank">他的公司资质和运营是怎么样的？</a>
+                        <a href="#" target="_blank">关于投资和提现有什么费用吗？</a>
+                        <a href="#" target="_blank">我的密码忘记了怎么办？</a>
+                        <a href="#" target="_blank">投资利息从什么时候开始计算？</a>
+                        <a href="#" target="_blank">蜗牛积分的安全保障有哪些？</a>
+                    </dd>
+                </dl>
+                <div class="clearfix cusmerQFoot bgGreen">
+                    <span class="fl fcWhite">客服时间：9:00-18:00</span>
+                    <a class="fr" href="#" target="_blank">在线咨询</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bgBlack fc999">
+        <section class="aboutUs">
+            <div class="layout clearfix ">
+                <dl class="fl ml30">
+                    <dt><span class="icon" style="background-color: #21398b"></span>关于我们</dt>
+                    <dd><a href="#" target="_blank">蜗牛简介</a></dd>
+                    <dd><a href="#" target="_blank">平台资质</a></dd>
+                    <dd><a href="#" target="_blank">蜗牛荣誉</a></dd>
+                    <dd><a href="#" target="_blank">帮助中心</a></dd>
+                    <dd><a href="#" target="_blank">联系我们</a></dd>
+                </dl>
+                <dl class="fl">
+                    <dt><span class="icon" style="background-color: #fda800"></span>平台服务</dt>
+                    <dd><a href="#" target="_blank">蜗牛平台</a></dd>
+                    <dd><a href="#" target="_blank">蜗牛社区</a></dd>
+                </dl>
+                <dl class="fl">
+                    <dt><span class="icon bgGreen"></span>相关链接</dt>
+                    <dd><a href="#" target="_blank">合作伙伴</a></dd>
+                    <dd><a href="#" target="_blank">媒体链接</a></dd>
+                </dl>
+                <div class="line">
+                </div>
+                <div class="fl service">
+                    <p>
+                    </p>
+                    <h2>客服电话: 0579--85059659</h2>
+                    <br>
+                    (工作时间：9:00-18:00)
+                    <p>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </footer>
+
+</div>
+<!-- 在线客服浮层 -->
+<!--[if IE 6]>
+<script src="unpan/bule/js/png24.js"></script>
+<script>
+    DD_belatedPNG.fix('*');
+</script>
+<![endif]-->
+<script type="text/javascript" src="unpan/blue/js/public.js"></script>
+<script src="unpan/blue/js/swiper.min.js"></script>
+<script type="text/javascript">
+    var galleryTop = new Swiper('.gallery-top', {
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+        spaceBetween: 10,
+        loop: true,
+        autoplay: 3000,
+        paginationClickable: true,
+        pagination: '.imgBanner .pagination'
+    });
+    var noticeList = new Swiper('.noticeList .swiper-container', {
+        spaceBetween: 10,
+        loop: true,
+        mode: 'vertical',
+        autoplay: 3000
+    });
+    $(function () {
+        var pageList = $(".swiper-pagination-switch").length;
+        var pageWidth = (1200 - pageList) / pageList;
+        pageWidth = Math.floor(pageWidth * 100) / 100
+        $(".swiper-pagination-switch, .menu_banner .textList span").css("width", pageWidth);
+        $(".menu_banner .textList span").bind("click", function () {
+            var $this = $(this);
+            var liIndex = $this.index(".menu_banner .textList span");
+            $(".swiper-pagination-switch").eq(liIndex).click();
+        });
+        $(".youxuan .areaType, .xiaofei .areaType").hover(function () {
+            $(this).parents(".listCon").addClass("curr");
+        }, function () {
+            $(this).parents(".listCon").removeClass("curr");
+        })
+    })
+
+    function addCart(id, money) {
+        // $('body').mLoading('show');
+
+        //询问框
+
+        layer.confirm('确认购买吗？', {
+            btn: ['确认', '取消'], //按钮
+            title: '确认购买'
+        }, function () {
+            $.post('/CouponController/shopCoupon', {id: id, money: money}, function (data) {
+                layer.msg(data.msg);
+                $.get("/PersonalCentreController/getUser", null, function (data) {
+                    console.log(data);
+                    vue.user = data;
+                })
+            })
+
+
+        }, function () {
+            layer.msg('已取消')
+        });
+
+
+    }
+</script>
+</body>
+<script>
+    let vue = new Vue({
+        el: '#app',
+        data: {
+            a: 1,
+            user: [],
+            allMoney: 0,
+            orderCount: 0,
+        },
+        beforeMount: function () {
+            // `this` 指向 vm 实例
+            let _this = this;
+            let url = "/PersonalCentreController/getUser";
+
+            $.get(url, null, function (data) {
+                console.log(data);
+                _this.user = data;
+            })
+            $.get("/PersonalCentreController/getUserAllMoney", null, function (data) {
+                _this.allMoney = data;
+            })
+
+            $.get("/PersonalCentreController/getUserAllOrderCount", null, function (data) {
+                _this.orderCount = data;
+            })
+        }
+    });
+
+</script>
+
+</html>

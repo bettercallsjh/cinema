@@ -1,0 +1,48 @@
+﻿
+.logo{
+	width: 1200px;
+    margin: auto;
+    padding: 37px 0 53px 0;
+    overflow: hidden;
+    background: url(../images/logo.png) no-repeat left 18px;
+    
+}
+.content{
+	position: relative;
+}
+.content .login-newbg{
+	position: absolute;
+	top: -140px;
+	background: url(../images/bg.jpg) no-repeat;
+	background-size:cover ;
+	height: 900px;
+	width: 100%;
+}
+.content .content-layout{
+	width: 1200px;
+	height: 600px;
+	position: relative;
+	overflow: hidden;
+	margin: 0 auto;
+	z-index: 999;
+}
+.login-box-warp{
+	
+	    width: 350px;
+    position: absolute;
+    right: 60px;
+    top: 120px;
+    padding: 25px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.3);
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0,0,0,.3)
+}
+.login-box-warp h2{
+	height: 18px;
+    line-height: 18px;
+    font-size: 16px;
+    color: #3c3c3c;
+   margin: 10px 0 20px;
+    font-weight: 700;
+}

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册 | 蜗牛电影</title>
+    <link rel="stylesheet" href="/business/CSS/normalize.css" th:href="@{/business/CSS/normalize.css}">
+    <link rel="stylesheet" href="/business/CSS/reg.css" th:href="@{/business/CSS/reg.css}">
+    <link rel="shortcut icon" href="/business/IMG/Blogo.png" th:href="@{/business/IMG/Blogo.png}" type="image/x-icon">
+    <script src="/business/JS/jquery-1.11.0.min.js" th:src="@{/business/JS/jquery-1.11.0.min.js}"></script>
+    <script src="/js/layer/layer.js" th:src="@{/js/layer/layer.js}"></script>
+</head>
+
+<body>
+<!-- 顶部 -->
+<header>
+    <div>
+        <a href="index.html"></a>
+    </div>
+</header>
+<!-- 注册部分 -->
+<div class="zhuche">
+    <form method="get" action="/user/register" style="margin-left: 300px" id="form">
+        <div class="zhuche1">
+            <label for="userAccount">用户名</label>
+            <input type="text" name="userAccount" id="userAccount" required><span id="tip4"></span>
+        </div>
+        <!-- 创建密码 -->
+        <div class="zhuche4">
+            <label for="password1">密码</label>
+            <input type="password1" name="password1" id="password1" minlength="6" maxlength="16" required>
+            <div id="intension">
+                <span>弱</span>
+                <span>中</span>
+                <span>强</span>
+            </div>
+        </div>
+        <!-- 确认密码 -->
+        <div class="zhuche1">
+            <label for="password2">确认密码</label>
+            <input type="password2" name="password2" id="password2" required><span id="tip1"></span>
+        </div>
+        <div class="zhuche1">
+            <!-- 手机号 -->
+            <label for="phone">手机号</label>
+            <input type="text" name="phone" id="phone" maxlength="11" required><span id="tip2"></span>
+
+            <div class="zhuche1">
+                <!-- 邮箱 -->
+                <label for="email">邮箱</label>
+                <input type="text" name="email" id="email" required><span id="tip3"></span>
+            </div>
+            <!-- 短信 获取-->
+            <div class="zhuche2">
+                <input type="button" id="getCode" value="获取邮箱动态码" onclick="GetCodemo(this)">
+            </div>
+            <!-- 短信 -->
+            <div class="zhuche3">
+                <label for="duanxin">邮箱动态码</label>
+                <input type="text" name="verifycode" id="duanxin" required>
+            </div>
+
+            <div class="zhuche6">
+                <input type="button" name="commit" onclick="register()" value="同意以下协议并注册">
+            </div>
+            <div class="zhuche7">
+                <a href="http://www.woniucx.com/aboutus.html">《蜗牛用户协议》</a>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<!-- 底部 -->
+<!-- 底部 -->
+<footer>
+    <p>
+        商务合作邮箱：2286010407@qq.com 客服电话：19150192914 违法和不良信息举报电话：021-61117980
+    </p>
+    <p>
+        投诉举报邮箱：2286010407@qq.com 舞弊线索举报邮箱：2286010407@qq.com
+    </p>
+    <p>
+        友情链接 :
+        <a href="http://www.woniuxy.com/train/aboutus.html">关于蜗牛</a>
+        <span></span>
+        <a href="http://www.woniucx.com">蜗牛创享</a>
+        <span></span>
+        <a href="http://www.aduobi.com/">阿多比</a>
+        <span></span>
+        <a href="http://www.woniuxy.com/train/index.html">就业培训</a>
+    </p>
+    <p>
+        ©2020蜗牛电影 woniu.com
+        <!--<a href="#">京ICP证160733号</a>-->
+        <!--<a href="#">京ICP备16022489号-1</a>-->
+        <a href="#">备案： 蜀ICP备15014130号-2</a>
+        <a href="#">网络文化经营许可证</a>
+        <a href="#">电子公告服务规则</a>
+    </p>
+    <p>
+        成都蜗牛创想科技有限公司
+    </p>
+</footer>
+<script type="text/javascript" th:inline="javascript">
+    let aa = [[${error}]];
+    if (aa) {
+        layer.msg(aa);
+    }
+</script>
+<script type="text/javascript">
+
+    var userAccount = document.getElementById('userAccount');
+    userAccount.onkeyup = function () {
+        var account = userAccount.value;
+        if (account!="") {
+            $.post('/user/selectUser', 'account=' + account, function (data) {
+                if (data == "") {
+                    document.getElementById("tip4").innerHTML = "<font color='green'>用户名可用</font>";
+                } else {
+                    document.getElementById("tip4").innerHTML = "<font color='red'>用户名已存在</font>";
+                }
+            });
+        }else{
+            document.getElementById("tip4").innerHTML = "<font color='red'>用户名不能为空</font>";
+        }
+    }
+    var oPassword = document.getElementById("password1");
+    var oDiv = document.getElementById("intension");
+    var spans = oDiv.getElementsByTagName("span");
+    oPassword.onkeyup = function () {
+        var pwd2 = document.getElementById("password2").value;
+        var oValue = oPassword.value;
+        var patrn = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
+        if (oValue.length == 0) {
+            spans[0].style.backgroundColor = "gray";
+            spans[1].style.backgroundColor = "gray";
+            spans[2].style.backgroundColor = "gray";
+        } else if (/\d/.test(oValue) && patrn.test(oValue) && (/[a-z]/.test(oValue) || /[A-Z]/.test(oValue))) {
+            spans[0].style.backgroundColor = "red";
+            spans[1].style.backgroundColor = "red";
+            spans[2].style.backgroundColor = "red";
+        } else if (/^\d+$/.test(oValue) || /^[A-Z]+$/.test(oValue) || /^[a-z]+$/.test(oValue)) {
+            spans[0].style.backgroundColor = "red";
+            spans[1].style.backgroundColor = "gray";
+            spans[2].style.backgroundColor = "gray";
+        } else {
+            spans[0].style.backgroundColor = "red";
+            spans[1].style.backgroundColor = "red";
+            spans[2].style.backgroundColor = "gray";
+        }
+        if (pwd2 != "") {
+            if (oValue == pwd2) {
+                document.getElementById("tip1").innerHTML = "<font color='green'>两次密码相同</font>";
+            } else {
+                document.getElementById("tip1").innerHTML = "<font color='red'>两次密码不相同</font>";
+            }
+        }
+    }
+    var password2 = document.getElementById("password2");
+    password2.onkeyup = function () {
+        var pwd1 = document.getElementById("password1").value;
+        var pwd2 = password2.value;
+        <!-- 对比两次输入的密码 -->
+        if (pwd1 == pwd2) {
+            document.getElementById("tip1").innerHTML = "<font color='green'>两次密码相同</font>";
+        } else {
+            document.getElementById("tip1").innerHTML = "<font color='red'>两次密码不相同</font>";
+        }
+    }
+    var phone = document.getElementById('phone');
+    phone.onkeyup = function () {
+        var ph = phone.value;
+        if (/^1[3456789]\d{9}$/.test(ph)) {
+            $.post('/user/selectPhone', 'phone=' + ph, function (data) {
+                if (data == "") {
+                    document.getElementById("tip2").innerHTML = "<font color='green'>手机号格式正确</font>";
+                } else {
+                    document.getElementById("tip2").innerHTML = "<font color='red'>手机号已被注册</font>";
+                }
+            });
+        } else {
+            document.getElementById("tip2").innerHTML = "<font color='red'>手机号格式不正确</font>";
+        }
+    }
+    var ema = document.getElementById('email');
+    ema.onkeyup = function () {
+        var e = ema.value;
+        var reg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+        <!-- 对比两次输入的密码 -->
+        if (reg.test(e)) {
+            $.post('/user/selectEmail', 'email=' + e, function (data) {
+                if (data == "") {
+                    document.getElementById("tip3").innerHTML = "<font color='green'>邮箱格式正确</font>";
+                } else {
+                    document.getElementById("tip3").innerHTML = "<font color='red'>邮箱已被注册</font>";
+                }
+            });
+        } else {
+            document.getElementById("tip3").innerHTML = "<font color='red'>邮箱格式不正确</font>";
+        }
+    }
+    var wait = 60;
+    function GetCodemo(o) {
+        var e = document.getElementById('email').value;
+        //发送验证码
+        if (e != "") {
+            if (wait == 60) {
+                //请求后台获取数据、
+                $.post('/user/getCode', 'email=' + e, function (data) {
+                }, 'json');
+            }
+            if (wait == 0) {
+                o.removeAttribute('disabled');//禁用
+                o.value = '重新发送';
+                wait = 60;
+            } else {
+                o.setAttribute('disabled', true);
+                o.value = "已发送(" + wait + ")";
+                wait--;
+                setTimeout(function () {
+                    GetCodemo(o)
+                }, 1000);
+            }
+        } else {
+            document.getElementById("tip3").innerHTML = "<font color='red'>请输入邮箱号</font>";
+        }
+    }
+    var code = document.getElementById('duanxin');
+    function register() {
+        event.preventDefault();
+        var tip1 = document.getElementById('tip1').innerHTML;
+        var tip2 = document.getElementById('tip2').innerHTML;
+        var tip3 = document.getElementById('tip3').innerHTML;
+        var tip4 = document.getElementById('tip4').innerHTML;
+        if (tip1.includes("green")&&tip2.includes("green")&&tip3.includes("green")&&tip4.includes("green")){
+            $("#form").submit();
+        }else{
+            layer.msg("注册失败,请修改!")
+        }
+    }
+</script>
+</body>
+</html>

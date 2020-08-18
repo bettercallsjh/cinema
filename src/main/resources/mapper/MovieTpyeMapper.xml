@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pmsj.cinema.common.mapper.MovieTpyeMapper">
+    <resultMap id="BaseResultMap" type="com.pmsj.cinema.common.entity.MovieTpye">
+        <id column="type_id" jdbcType="INTEGER" property="typeId"/>
+        <result column="type_name" jdbcType="VARCHAR" property="typeName"/>
+        <result column="tpye_status" jdbcType="INTEGER" property="tpyeStatus"/>
+        <result column="movie_id" jdbcType="INTEGER" property="movieId"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from movie_tpye
+    where type_id = #{typeId,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByMovie">
+       delete from movie_tpye_mid
+        where movie_id = #{movieId}
+  </delete>
+    <insert id="insert" parameterType="com.pmsj.cinema.common.entity.MovieTpye">
+    insert into movie_tpye (type_id, type_name, tpye_status
+      )
+    values (#{typeId,jdbcType=INTEGER}, #{typeName,jdbcType=VARCHAR}, #{tpyeStatus,jdbcType=INTEGER}
+      )
+  </insert>
+    <insert id="addMovieTypeMid">
+      insert into movie_tpye_mid (type_id,movie_id)
+      value (#{maxId},#{movieId})
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="com.pmsj.cinema.common.entity.MovieTpye">
+    update movie_tpye
+    set type_name = #{typeName,jdbcType=VARCHAR},
+      tpye_status = #{tpyeStatus,jdbcType=INTEGER}
+    where type_id = #{typeId,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select type_id, type_name, tpye_status
+    from movie_tpye
+    where type_id = #{typeId,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select type_id, type_name, tpye_status
+    from movie_tpye
+  </select>
+
+    <select id="selectByMovieId" resultMap="BaseResultMap">
+    SELECT i.movie_id,t.*
+    FROM
+    (movie_tpye_mid i
+    LEFT JOIN
+    movie_tpye t
+    ON
+    i.type_id = t.type_id
+    )
+    LEFT JOIN
+    movie m
+    ON
+    i.movie_id = m.`movie_id`
+    WHERE
+    m.`movie_id` = #{movieId}
+  </select>
+
+
+    <select id="selectByName" resultMap="BaseResultMap">
+
+    select type_id, type_name, tpye_status
+    from movie_tpye
+    where type_name = #{movieTpyeName}
+    </select>
+    <select id="getMaxId" resultType="java.lang.Integer">
+        select max(type_id)
+        from movie_tpye
+  </select>
+    <select id="selectNoMovieType" resultMap="BaseResultMap">
+		select  *
+        from movie_tpye_mid
+        LEFT JOIN movie_tpye
+        on movie_tpye_mid.type_id =  movie_tpye.type_id
+		where movie_tpye_mid.type_id not in (
+        select type_id from movie_tpye_mid where movie_id = #{movieId})
+        GROUP BY movie_tpye_mid.type_id
+    </select>
+    <select id="selectCheckedTpyes" resultMap="BaseResultMap">
+         select  *
+        from movie_tpye_mid
+        LEFT JOIN movie_tpye
+        on movie_tpye_mid.type_id =  movie_tpye.type_id
+        where  movie_id = #{movieId}
+        GROUP BY movie_tpye.type_id
+    </select>
+</mapper>

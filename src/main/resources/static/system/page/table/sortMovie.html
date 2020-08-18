@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>添加品牌</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../lib/layui-v2.5.5/css/layui.css"
+          th:href="@{/system/lib/layui-v2.5.5/css/layui.css}" media="all">
+
+
+    <link rel="stylesheet" href="./assets/css/autocomplete.css"
+          th:href="@{/system/css/autocomplete.css}"/>
+
+    <link rel="stylesheet" href="../../css/public.css" media="all" th:href="@{/system/css/public.css}">
+    <script src="jquery.min.js" th:src="@{/system/page/table/jquery.min.js}"></script>
+
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-form layuimini-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label required">影院名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="username" th:value="${cinema.cinemaName}" disabled readonly lay-verify="required"
+                   class="layui-input">
+            <input name="cinemaId" type="hidden" th:value="${cinema.cinemaId}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label required">价格</label>
+        <div class="layui-input-block">
+            <input type="number" name="fareMoney" lay-verify="required" lay-reqtext="价格不能为空" placeholder="请输入票价"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" required>影厅</label>
+        <div class="layui-input-block">
+            <select name="hallId" required>
+                <option th:each="hall : ${hallList}" th:value="${hall.hallId}">[[${hall.hallName}]]</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">开始时间</label>
+        <div class="layui-input-block">
+            <input name="startTime" id="test1"
+                   placeholder="请输入时间"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label required">电影</label>
+        <div class="layui-input-block">
+            <input id="movie" name="movie" layui-autocomplete lay-verify="required" lay-reqtext="电影不能为空"
+                   placeholder="请选择电影"
+                   class="layui-input">
+            <input id="movieId" name="movieId" type="hidden">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label required">电影时长</label>
+        <div class="layui-input-block">
+            <input type="number" name="time" id="time" lay-verify="required" min="122" lay-reqtext="请选择电影"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="../../lib/layui-v2.5.5/layui.js" th:src="@{/system/lib/layui-v2.5.5/layui.js}" charset="utf-8"></script>
+
+<!-- 公共配置第三方组件 -->
+<script type="text/javascript">
+    layui.config({
+        version: false,
+        debug: false,
+        base: '/system/js/lay-module/extra/',
+    })
+</script>
+
+
+<script>
+    layui.use(['form', 'jquery', 'autocomplete'], function () {
+        let minTime = 0;
+        var form = layui.form,
+            layer = layui.layer,
+            autocomplete = layui.autocomplete,
+            $ = layui.jquery;
+
+
+        $('#render').on('click', function () {
+            auto_render(movie)
+        })
+
+        function auto_render() {
+            var render = autocomplete.render({
+                elem: $('#movie'),
+                url: '/cinema/movieName',
+                response: {code: 'code', data: 'data'},
+                params: function () {
+                    console.log($('#movie').val());
+                    return {
+                        movieName: $('#movie').val(),
+                    };
+                },
+                statusCode: 200,
+                cache: false,
+                template_val: '{{d.movieName}}',
+                template_txt: '<img src="{{d.movieImg}}" width="60px" height="90px">{{d.movieName}}',
+                onselect: function (resp) {
+                    let a = "" + resp.movieTime.replace("分钟", "");
+                    console.log(a);
+                    $('#time').val(parseInt(a));
+                    $('#movieId').val(resp.movieId);
+                    minTime = parseInt(a);
+                    form.render();
+
+                }
+            })
+
+        }
+
+        auto_render();
+
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+
+            console.log(data.field.time);
+            let number = parseInt($('#time').val());
+            console.log(number);
+
+            if (parseInt($('#time').val()) < minTime) {
+                layer.msg('放映时长必须大于电影时长')
+            } else {
+
+                $.post("/cinema/addHallMovie", data.field, function (data) {
+                    if (data != '200') {
+                        layer.msg(data);
+                    } else {
+                        layer.msg('添加成功');
+                        setTimeout(function () {
+                            var iframeIndex = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(iframeIndex);
+                        }, 1000);
+                    }
+
+
+                });
+
+            }
+
+
+            return false;
+        });
+
+    });
+</script>
+</body>
+
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#test1' //指定元素
+            , type: 'datetime',
+            min: 0,
+        });
+    });
+</script>
+</html>

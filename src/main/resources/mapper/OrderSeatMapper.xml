@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pmsj.cinema.common.mapper.OrderSeatMapper">
+  <resultMap id="BaseResultMap" type="com.pmsj.cinema.common.entity.OrderSeat">
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="seat_id" jdbcType="INTEGER" property="seatId" />
+    <result column="seat_name"  property="seatName" />
+  </resultMap>
+  <insert id="insert" parameterType="com.pmsj.cinema.common.entity.OrderSeat">
+    insert into order_seat (order_id, seat_id, seat_name)
+    values (#{orderId,jdbcType=INTEGER}, #{seatId,jdbcType=INTEGER},#{seatName})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select order_id, seat_id, seat_name
+    from order_seat
+  </select>
+
+  <select id="selectByOrderId" resultMap="BaseResultMap">
+    select order_id, seat_id, seat_name
+    from order_seat
+    where order_id = #{orderId}
+  </select>
+</mapper>

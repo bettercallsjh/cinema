@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pmsj.cinema.common.mapper.CastMapper">
+    <resultMap id="BaseResultMap" type="com.pmsj.cinema.common.entity.Cast">
+        <id column="actor_id" jdbcType="INTEGER" property="actorId"/>
+        <result column="actor_name" jdbcType="VARCHAR" property="actorName"/>
+        <result column="actor_img" jdbcType="VARCHAR" property="actorImg"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cast
+    where actor_id = #{actorId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.pmsj.cinema.common.entity.Cast">
+    insert into cast (actor_id, actor_name,
+      actor_img)
+    values (#{actorId,jdbcType=INTEGER}, #{actorName,jdbcType=VARCHAR},
+      #{actorImg,jdbcType=VARCHAR})
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="com.pmsj.cinema.common.entity.Cast">
+    update cast
+    set actor_name = #{actorName,jdbcType=VARCHAR},
+      actor_img = #{actorImg,jdbcType=VARCHAR}
+    where actor_id = #{actorId,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from cast
+    where actor_id = #{actorId,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select *
+    from cast
+  </select>
+    <select id="selectByCastName" resultMap="BaseResultMap">
+    select *
+      from cast  where actor_name = #{actorName}
+    </select>
+    <select id="getMaxId" resultType="java.lang.Integer">
+    select max(actor_id)
+      from cast
+  </select>
+
+</mapper>

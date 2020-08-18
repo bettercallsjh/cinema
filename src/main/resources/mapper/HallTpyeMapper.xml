@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pmsj.cinema.common.mapper.HallTpyeMapper">
+  <resultMap id="BaseResultMap" type="com.pmsj.cinema.common.entity.HallTpye">
+    <id column="ht_id" jdbcType="INTEGER" property="htId" />
+    <result column="ht_name" jdbcType="VARCHAR" property="htName" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hall_tpye
+    where ht_id = #{htId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pmsj.cinema.common.entity.HallTpye">
+    insert into hall_tpye (ht_id, ht_name)
+    values (#{htId,jdbcType=INTEGER}, #{htName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.pmsj.cinema.common.entity.HallTpye">
+    update hall_tpye
+    set ht_name = #{htName,jdbcType=VARCHAR}
+    where ht_id = #{htId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select ht_id, ht_name
+    from hall_tpye
+    where ht_id = #{htId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select ht_id, ht_name
+    from hall_tpye
+  </select>
+</mapper>

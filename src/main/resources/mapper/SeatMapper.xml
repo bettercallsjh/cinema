@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pmsj.cinema.common.mapper.SeatMapper">
+  <resultMap id="BaseResultMap" type="com.pmsj.cinema.common.entity.Seat">
+    <id column="seat_id" jdbcType="INTEGER" property="seatId" />
+    <result column="seat_x" jdbcType="INTEGER" property="seatX" />
+    <result column="seat_y" jdbcType="INTEGER" property="seatY" />
+    <result column="seat_tpye" jdbcType="INTEGER" property="seatTpye" />
+    <result column="hall_id" jdbcType="INTEGER" property="hallId" />
+    <result column="hall_movie_id" jdbcType="INTEGER" property="hallMovieId" />
+    <result column="seat_name" jdbcType="VARCHAR" property="seatName" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from seat
+    where seat_id = #{seatId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pmsj.cinema.common.entity.Seat" useGeneratedKeys="true" keyProperty="seatId">
+    insert into seat (seat_id, seat_x, seat_y, 
+      seat_tpye, hall_id, hall_movie_id, 
+      seat_name)
+    values (#{seatId,jdbcType=INTEGER}, #{seatX,jdbcType=INTEGER}, #{seatY,jdbcType=INTEGER}, 
+      #{seatTpye,jdbcType=INTEGER}, #{hallId,jdbcType=INTEGER}, #{hallMovieId,jdbcType=INTEGER}, 
+      #{seatName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.pmsj.cinema.common.entity.Seat">
+    update seat
+    set seat_x = #{seatX,jdbcType=INTEGER},
+      seat_y = #{seatY,jdbcType=INTEGER},
+      seat_tpye = #{seatTpye,jdbcType=INTEGER},
+      hall_id = #{hallId,jdbcType=INTEGER},
+      hall_movie_id = #{hallMovieId,jdbcType=INTEGER},
+      seat_name = #{seatName,jdbcType=VARCHAR}
+    where seat_id = #{seatId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select seat_id, seat_x, seat_y, seat_tpye, hall_id, hall_movie_id, seat_name
+    from seat
+    where seat_id = #{seatId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select seat_id, seat_x, seat_y, seat_tpye, hall_id, hall_movie_id, seat_name
+    from seat
+  </select>
+  <select id="selectByHallId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select seat_id, seat_x, seat_y, seat_tpye, hall_id, hall_movie_id, seat_name
+    from seat
+    where hall_id = #{hallId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByHallMovieId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select seat_id, seat_x, seat_y, seat_tpye, hall_id, hall_movie_id, seat_name
+    from seat
+    where hall_movie_id = #{hallMovieId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByRowAndCol" resultMap="BaseResultMap">
+    select seat_id, seat_x, seat_y, seat_tpye, hall_id, hall_movie_id, seat_name
+    from seat
+    where seat_x = #{col,jdbcType=INTEGER} and seat_y = #{row,jdbcType=INTEGER} and hall_movie_id = #{hallMovieId,jdbcType=INTEGER}
+
+  </select>
+
+  <select id="selectByBlank" resultMap="BaseResultMap">
+    select seat_id, seat_x, seat_y, seat_tpye, hall_id, hall_movie_id, seat_name
+    from seat
+    where seat_x = #{col,jdbcType=INTEGER} and seat_y = #{row,jdbcType=INTEGER} and hall_id = #{hallId,jdbcType=INTEGER}
+  </select>
+
+
+  <delete id="deleteByHallId" parameterType="java.lang.Integer">
+    delete from seat
+    where hall_id = #{hallId,jdbcType=INTEGER}
+  </delete>
+</mapper>

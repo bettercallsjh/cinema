@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:http="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>影院 - 蜗牛电影 - 一网打尽好电影</title>
+    <link rel="stylesheet" href="../CSS/normalize.css">
+    <script src="../../js/jquery.min.js"></script>
+    <link rel="stylesheet" href="../CSS/yingyuan.css">
+    <link rel="shortcut icon" href="../IMG/Blogo.png" type="image/x-icon">
+    <script src="../../js/vue.js"></script>
+    <style>
+        .check {
+            border: 1px solid #f00;
+            background-color: #f00;
+            color: white;
+        }
+    </style>
+
+</head>
+
+<body>
+<!-- 顶部 -->
+<header class="dingbu" id="city">
+    <nav>
+        <a href="#" class="logo"></a>
+        <div class="xiala1 bian">
+            <div class="xiala1_1">
+                <a href="#" class="cd">{{city}}</a>
+                <span class="sanjiao"></span>
+            </div>
+        </div>
+        <ul class="navbar">
+            <li>
+                <a href="./index.html">首页</a>
+            </li>
+            <li>
+                <a href="./dianying.html">电影</a>
+            </li>
+            <li>
+                <a href="./yingyuan.html">影院</a>
+            </li>
+            <li>
+                <a href="./bangdan.html">榜单</a>
+            </li>
+<!--            <li>-->
+<!--                <a href="./redian.html">热点</a>-->
+<!--            </li>-->
+        </ul>
+        <div class="shouji bian">
+            <span class="shouji_1"></span>
+            <span>APP下载</span>
+            <span class="sanjiao"></span>
+            <div class="shouji1">
+                <div>
+                    <div></div>
+                </div>
+                <p>扫码下载APP</p>
+                <p>选座更优惠</p>
+            </div>
+        </div>
+        <div class="sousuo">
+            <form method="get" action="../HTML/Search.html">
+                <input class="sousuo_1" type="search" maxlength="32" placeholder="找影视剧、影人、影院" autocomplete="off"
+                       name="keyWord" onblur="if(this.value.replace(/^ +| +$/g,'')=='')alert('不能为空!')">
+                <input class="sousuo_2" type="submit" value="">
+            </form>
+        </div>
+        <div class="denglu bian" id="user">
+            <a href="/jifen/index.html">
+                <img :src="photo" alt="" style="width:50px; height:50px;border-radius: 50%">
+            </a>
+            <div v-if="userId==0">
+                <a href="/user/accountLogin">登陆</a>
+            </div>
+            <div v-if="userId==''">
+                <a href="/user/accountLogin">登陆</a>
+            </div>
+            <div v-if="userId==null">
+                <a href="/user/accountLogin">登陆</a>
+            </div>
+            <div v-else>
+                <a href="/user/logout">注销</a>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="main">
+    <form id="form">
+
+        <article>
+            <!-- 电影详细分类 -->
+            <div class="lei" id="app">
+                <input type="hidden" name="page" value="1" id="page">
+                <input type="hidden" name="province" :value="province">
+                <input type="hidden" name="city" :value="city">
+                <ul class="lei_1">
+                    <li>
+                        <div>
+                            品牌：
+                        </div>
+                        <ul class="lei_2">
+                            <li>
+
+
+                            <span>
+                            <input type="radio" id="pingpai1" name="brand" value="" checked v-on:click="getAllMoive">
+                            <label for="pingpai1">
+                                <a>全部</a>
+                            </label>
+                            </span>
+
+                                <span v-for="(brand,index) in allBrand" class="brand">
+                                <input type="radio" :id="'pingpai'+(index+2)" name="brand" :value="brand.brandId"
+                                       v-on:click="getAllMoive">
+                                <label :for="'pingpai'+(index+2)">
+                                    <a>{{brand.brandName}}</a>
+                                </label>
+                            </span>
+
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <div>
+                            特殊厅：
+                        </div>
+                        <ul class="lei_2">
+                            <li>
+
+                                <input type="radio" id="teshu1" name="hallType" value="" checked
+                                       v-on:click="getAllMoive">
+                                <label for="teshu1">
+                                    <a>全部</a>
+                                </label>
+
+                                <span v-for="(hallType,index) in allHallType">
+                                    <input type="radio" :id="'teshu'+(index+2)" :value="hallType.htId" name="hallType"
+                                           v-on:click="getAllMoive">
+                                    <label :for="'teshu'+(index+2)">
+                                        <a>{{hallType.htName}}</a>
+                                    </label>
+                               </span>
+
+
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                    <li>
+                        <div>
+                            行政区：
+                        </div>
+                        <ul class="lei_2">
+                            <li>
+
+                                <input type="radio" id="xingzheng1" value="" name="area" checked
+                                       v-on:click="getAllMoive">
+                                <label for="xingzheng1">
+                                    <a>全部</a>
+                                </label>
+
+                                <span v-for="(district,index) in districts">
+                                    <input type="radio" :id="'xingzheng'+(index+2)" name="area" :value="district.name"
+                                           v-on:click="getAllMoive">
+                                    <label :for="'xingzheng'+(index+2)">
+                                        <a>{{district.name}}</a>
+                                    </label>
+                                </span>
+
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+                </li>
+                </ul>
+            </div>
+        </article>
+    </form>
+</div>
+<!-- 影院列表 -->
+<div class="liebiao" id="vueCinema">
+    <h3>影院列表</h3>
+    <ul>
+
+        <!-- 1 -->
+        <li v-for="cinema in cinemas">
+            <div>
+                <a :href="'cinemaDetails.html?cinemaId='+cinema.cinemaId">{{cinema.cinemaName}}</a>
+                <p>地址：{{cinema.cinemaLocation}}</p>
+            </div>
+            <div>
+
+                <p v-if="cinema.minMoney == 0">
+                    <!--                    <span>￥</span>-->
+                    <!--                    <span>{{cinema.minMoney}}</span>-->
+                    <span>暂无排片</span>
+                </p>
+
+                <p v-else>
+                    <span>￥</span>
+                    <span>{{cinema.minMoney}}</span>
+                    <span>起</span>
+                </p>
+                <a :href="'cinemaDetails.html?cinemaId='+cinema.cinemaId">选座购票</a>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<!-- 页 -->
+<div class="ye" id="vuePage">
+    <form v-if="endPage > 0">
+        <ul>
+            <li>
+                <span v-show="prePage != 0">
+                    <input type="radio" name="ye">
+                    <label v-on:click="goPage(prePage)" :for="prePage">
+                        <a>上一页</a>
+                    </label>
+                </span>
+                <span>
+                    <input type="radio" name="ye">
+                    <label v-if="pageNum == 1" class="check" v-on:click="goPage(1)" style="border-color:red ">
+                        <a style="color: white">1</a>
+                    </label>
+                     <label v-else v-on:click="goPage(1)">
+                        <a>1</a>
+                    </label>
+                 </span>
+
+                <span v-show="hasBefor">
+                    <input type="radio">
+                    <label>
+                        <a>...</a>
+                    </label>
+                 </span>
+
+
+                <span v-if="endPage > 0" v-for="index in page">
+                    <input v-on:click="goPage(index + startPage - 1)" type="radio"
+                           name="ye">
+                    <label v-if="pageNum == (index + startPage - 1)" class="check" sty
+                           v-on:click="goPage(index + startPage- 1)" style="border-color:red "
+                    >
+                        <a style="color: white">{{(index + startPage- 1)}}</a>
+                    </label>
+                    <label v-else v-on:click="goPage(index + startPage- 1)">
+                        <a>{{(index + startPage- 1)}}</a>
+                    </label>
+                 </span>
+
+
+                <span v-show="hasEnd">
+                    <input type="radio">
+                    <label>
+                        <a>...</a>
+                    </label>
+                 </span>
+
+                <span v-if="endPage > 1">
+                    <input type="radio" name="ye">
+                    <label v-if="pageNum == endPage" class="check" v-on:click="goPage(endPage)"
+                           style="border-color:red ">
+
+                        <a style="color: white">{{endPage}}</a>
+                    </label>
+                     <label v-else v-on:click="goPage(endPage)">
+                        <a>{{endPage}}</a>
+                    </label>
+                 </span>
+
+
+                <span v-if="nextPage != 0">
+                    <input type="radio" name="ye">
+                    <label v-on:click="goPage(nextPage)">
+                        <a>下一页</a>
+                    </label>
+                 </span>
+
+            </li>
+        </ul>
+    </form>
+
+</div>
+<!-- 底部 -->
+<!-- 底部 -->
+<footer>
+    <p>
+        商务合作邮箱：2286010407@qq.com 客服电话：19150192914 违法和不良信息举报电话：021-61117980
+    </p>
+    <p>
+        投诉举报邮箱：2286010407@qq.com 舞弊线索举报邮箱：2286010407@qq.com
+    </p>
+    <p>
+        友情链接 :
+        <a href="http://www.woniuxy.com/train/aboutus.html">关于蜗牛</a>
+        <span></span>
+        <a href="http://www.woniucx.com">蜗牛创享</a>
+        <span></span>
+        <a href="http://www.aduobi.com/">阿多比</a>
+        <span></span>
+        <a href="http://www.woniuxy.com/train/index.html">就业培训</a>
+    </p>
+    <p>
+        ©2020蜗牛电影 woniu.com
+        <!--<a href="#">京ICP证160733号</a>-->
+        <!--<a href="#">京ICP备16022489号-1</a>-->
+        <a href="#">备案： 蜀ICP备15014130号-2</a>
+        <a href="#">网络文化经营许可证</a>
+        <a href="#">电子公告服务规则</a>
+    </p>
+    <p>
+        成都蜗牛创想科技有限公司
+    </p>
+</footer>
+<!-- 喵 -->
+<a class="miao" href="./zajindan.html" target="blank">
+</a>
+</body>
+<script src='https://webapi.amap.com/maps?v=2.0&key=2d48cd6bbd59d166e39880aad4842c1c'></script>
+<script src="/js/distpicker-master/dist/distpicker.js"
+        th:src="@{/js/distpicker-master/dist/distpicker.js}"></script>
+<script>
+
+    var user = new Vue({
+        el: "#user",
+        data: {
+            photo: '',
+            userId: 0,
+        },
+        beforeMount: function () {
+            $.get("/user/selectUser", null, function (data) {
+                user.photo = data.userPhoto
+                user.userId = data.userId;
+                console.log(user.userId);
+            })
+        },
+    })
+
+    var vue = new Vue({
+        el: '#app',
+        data: {
+
+            allBrand: {},
+            districts: {},
+            allHallType: {},
+            city: "",
+            province: ""
+
+        },
+
+        methods: {
+            getAllMoive: function () {
+                getAllCinema($("#form").serialize())
+            }
+
+        },
+        mounted: function () {
+            var _this = this;
+            getAllCinema($("#form").serialize());
+            AMap.plugin('AMap.CitySearch', function () {
+                var citySearch = new AMap.CitySearch();
+                citySearch.getLocalCity(function (status, result) {
+                    if (status === 'complete' && result.info === 'OK') {
+                        // 查询成功，result即为当前所在城市信息
+                        _this.city = result.city;
+                        _this.province = result.province;
+                        console.log(_this.province);
+
+                        city.city = result.city;
+
+                        var cityCode = null;
+
+                        $.get("https://restapi.amap.com/v3/config/district?key=815ea338cd645cc5e60a7feed7a5cf04&keywords=" + result.city + "&subdistrict=0&extensions=base", function (data) {
+                            cityCode = data.districts[0].citycode
+
+                            $.get("https://restapi.amap.com/v3/config/district?key=815ea338cd645cc5e60a7feed7a5cf04&keywords=" + cityCode + "&subdistrict=0&extensions=base", function (data) {
+
+                                _this.districts = data.districts;
+
+                                if (cityCode == '021') {
+                                    _this.districts.shift();
+                                    _this.districts.shift();
+                                }
+
+                            });
+                        });
+                    }
+                })
+            });
+
+
+        },
+        beforeCreate: function () {
+            var _this = this;
+            $.get("/brand/getAllBrandsJson", function (data) {
+                _this.allBrand = data
+            });
+
+            $.get("/cinema/getAllHallType", function (data) {
+                _this.allHallType = data
+            });
+        }
+
+    });
+
+    var city = new Vue({
+        el: "#city",
+        data:{
+            city:'',
+        }
+    });
+
+
+    var vueCinema = new Vue({
+        el: '#vueCinema',
+        data: {
+
+            cinemas: {},
+
+
+        },
+    });
+
+
+    var page = new Vue({
+        el: '#vuePage',
+        data: {
+            pageNum: 0,
+            endPage: 0,
+            prePage: 0,
+            nextPage: 0,
+            page: 0,
+            hasBefor: false,
+            hasEnd: false,
+            startPage: 2,
+        },
+        methods: {
+            goPage: function (page) {
+                $("#page").val(page);
+                getAllCinema($("#form").serialize())
+            }
+
+        }
+    });
+
+    function getAllCinema(data) {
+        $.get("/cinema/getAllCinemaByAll", data, function (data2) {
+            console.log(data2);
+            vueCinema.cinemas = data2.list;
+            page.pageNum = data2.pageNum - 0;
+            page.endPage = data2.pages - 0;
+            page.prePage = data2.prePage - 0;
+            page.nextPage = data2.nextPage - 0;
+            page.page = data2.pages - 2;
+            page.hasBefor = false;
+            page.hasEnd = false;
+
+            console.log(data2.pages - 2);
+
+            if (data2.pages - 2 < 0) {
+                page.page = 0;
+            }
+
+            page.startPage = 2;
+
+
+            if (data2.pages > 6) {
+                page.page = 4;
+            }
+
+            if (data2.pageNum >= 5) {
+                page.startPage = data2.pageNum - 2;
+
+            }
+
+
+            if (data2.pageNum >= 5) {
+                page.hasBefor = true;
+            }
+
+            if (data2.pageNum > 5 && data2.pageNum + 5 > data2.pages) {
+                // data2.pageNum
+                page.page = 4;
+                page.startPage = data2.pages - 4;
+
+            }
+
+            if (data2.pageNum >= 5 && data2.pageNum + 1 == data2.pages) {
+                page.page = 3;
+                page.startPage = data2.pageNum - 2
+            }
+
+
+            if (data2.pageNum + 4 <= data2.pages) {
+                page.hasEnd = true;
+
+            }
+
+
+        })
+
+    }
+
+
+</script>
+<script src="/js/distpicker-master/dist/distpicker.js" th:src="@{/js/distpicker-master/dist/distpicker.js}"></script>
+
+</html>

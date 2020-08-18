@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pmsj.cinema.common.mapper.MovieActorMapper">
+    <resultMap id="BaseResultMap" type="com.pmsj.cinema.common.entity.MovieActor">
+        <id column="movie_id" jdbcType="INTEGER" property="movieId"/>
+        <result column="actor_id" jdbcType="INTEGER" property="actorId"/>
+        <result column="movie_actor_role" jdbcType="VARCHAR" property="movieActorRole"/>
+        <result column="movie_actor_type" jdbcType="INTEGER" property="movieActorType"/>
+        <result column="actor_name" jdbcType="VARCHAR" property="actorName"/>
+        <result column="actor_img" jdbcType="VARCHAR" property="actorImg"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from movie_actor
+    where movie_id = #{movieId,jdbcType=INTEGER}
+  </delete>
+    <delete id="delByMovie">
+          delete from movie_actor
+           where movie_id = #{movieMapperMaxId}
+    </delete>
+    <insert id="insert" parameterType="com.pmsj.cinema.common.entity.MovieActor">
+    insert into movie_actor (movie_id, actor_id, movie_actor_role, 
+      movie_actor_type)
+    values (#{movieId,jdbcType=INTEGER}, #{actorId,jdbcType=INTEGER}, #{movieActorRole,jdbcType=VARCHAR}, 
+      #{movieActorType,jdbcType=INTEGER})
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="com.pmsj.cinema.common.entity.MovieActor">
+    update movie_actor
+    set actor_id = #{actorId,jdbcType=INTEGER},
+      movie_actor_role = #{movieActorRole,jdbcType=VARCHAR},
+      movie_actor_type = #{movieActorType,jdbcType=INTEGER}
+    where movie_id = #{movieId,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select movie_id, actor_id, movie_actor_role, movie_actor_type
+    from movie_actor
+    where movie_id = #{movieId,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select movie_id, actor_id, movie_actor_role, movie_actor_type
+    from movie_actor
+  </select>
+    <select id="selectActor" resultMap="BaseResultMap">
+    SELECT a.*,c.actor_name,actor_img
+    FROM
+    movie_actor a LEFT JOIN `cast` c ON a.`actor_id`=c.`actor_id`
+    WHERE
+    a.movie_actor_type=1
+    AND
+    a.movie_id=#{movieId}
+  </select>
+
+    <select id="selectDirector" resultMap="BaseResultMap">
+    SELECT a.*,c.actor_name,actor_img
+    FROM
+    movie_actor a LEFT JOIN `cast` c ON a.`actor_id`=c.`actor_id`
+    WHERE
+    a.movie_actor_type=0
+    AND
+    a.movie_id=#{movieId}
+  </select>
+
+
+    <select id="getCast0AllByMovieId" resultMap="BaseResultMap">
+    select movie_id, actor_id, movie_actor_role, movie_actor_type
+    from movie_actor where
+    movie_id = #{movieId}
+    and movie_actor_type = 0
+    </select>
+    <select id="getCast1AllByMovieId" resultMap="BaseResultMap">
+     select movie_id, actor_id, movie_actor_role, movie_actor_type
+      from movie_actor where
+      movie_id = #{movieId}
+      and movie_actor_type = 1
+    </select>
+
+
+</mapper>

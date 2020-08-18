@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>添加品牌</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../lib/layui-v2.5.5/css/layui.css"
+          th:href="@{/system/lib/layui-v2.5.5/css/layui.css}" media="all">
+    <link rel="stylesheet" href="../../css/public.css" th:src="@{/system/css/public.css}" media="all">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"/>
+    <script type="text/javascript" src="https://webapi.amap.com/demos/js/liteToolbar.js"></script>
+    <script src="jquery.min.js" th:src="@{/system/page/table/jquery.min.js}"></script>
+
+    <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main.css"/>
+    <script type="text/javascript"
+            src="https://webapi.amap.com/maps?v=1.4.15&key=2d48cd6bbd59d166e39880aad4842c1c"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="layui-form layuimini-form" id="app">
+    <div class="layui-form-item">
+        <label class="layui-form-label required">影院名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="cinemaName" th:value="${cinema.cinemaName}" lay-verify="required"
+                   lay-reqtext="影院名称不能为空" placeholder="请输入影院名称"
+                   id="keyword" value="" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <div id="mapContainer" style="width: 600px;height: 300px;clear: both"></div>
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </div>
+    </div>
+    <div class="layui-form-item" data-toggle="distpicker">
+        <label class="layui-form-label">地址</label>
+        <div class="layui-input-inline">
+            <select lay-filter="a" id="a" th:data-province="${cinema.cinemaProvince}" name="cinemaProvince"></select>
+        </div>
+        <div class="layui-form-mid layui-word-aux"></div>
+        <div class="layui-input-inline">
+            <select lay-filter="b" id="b" name="cinemaCity" th:data-city="${cinema.cinemaCity}"></select>
+        </div>
+        <div class="layui-form-mid layui-word-aux"></div>
+
+        <div class="layui-input-inline">
+            <select lay-filter="c" id="c" name="cinemaArea" th:data-district="${cinema.cinemaArea}"></select>
+
+        </div>
+        <div class="layui-form-mid layui-word-aux"></div>
+        <div class="layui-input-inline">
+            <input required lay-verify="required" name="cinemaLocation" id="password" placeholder="请输入详细地址"
+                   autocomplete="off" th:value="${cinema.cinemaLocation}"
+                   class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">影城品牌</label>
+        <div class="layui-input-block">
+            <select id="brand" name="cinemaBrand" th:lay-value="${cinema.cinemaBrand}">
+            </select>
+
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">电话</label>
+        <div class="layui-input-block">
+            <input type="text" name="cinemaPhone" id="tel" lay-verify="required" lay-reqtext="电话不能为空"
+                   placeholder="请输入手机"
+                   th:value="${cinema.cinemaPhone}"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">图片</label>
+        <div class="layui-input-block">
+            <input type="hidden" name="cinemaImg" id="cinemaImg" th:value="${cinema.cinemaImg}">
+            <img src="" id="img" th:src="${cinema.cinemaImg}">
+            <input type="hidden" name="cinemaLng" id="cinemaLng" th:value="${cinema.cinemaLng}">
+            <input type="hidden" name="cinemaLat" id="cinemaLat" th:value="${cinema.cinemaLat}">
+            <input type="hidden" name="cinemaId" id="cinemaId" th:value="${cinema.cinemaId}">
+        </div>
+
+    </div>
+
+    <!--    <div class="layui-form-item layui-form-text">-->
+    <!--        <label class="layui-form-label">备注信息</label>-->
+    <!--        <div class="layui-input-block">-->
+    <!--            <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息"></textarea>-->
+    <!--        </div>-->
+    <!--    </div>-->
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+        </div>
+    </div>
+</div>
+<script src="../../lib/layui-v2.5.5/layui.js" th:src="@{/system/lib/layui-v2.5.5/layui.js}" charset="utf-8"></script>
+<script th:inline="javascript">
+
+    var jin = [[${cinema.cinemaLat}]];
+
+    var wei = [[${cinema.cinemaLng}]];
+
+    var cinemaBrand = [[ ${cinema.cinemaBrand}]];
+
+    let vue = new Vue({
+        el: '#app',
+        data: {
+            poiList: {},
+            a: 1,
+            user: [],
+            allMoney: 0,
+            orderCount: 0,
+            province: "",
+            city: "",
+            area: ""
+        },
+        beforeMount: function () {
+
+        }
+    });
+
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+        form.render();
+        var windowsArr = [];
+        var marker = [];
+        var map = new AMap.Map("mapContainer", {
+            resizeEnable: true,
+            center: [wei, jin],//地图中心点
+            zoom: 17,//地图显示的缩放级别
+            keyboardEnable: false
+        });
+
+        var m1 = new AMap.Marker({
+            position: [wei, jin]
+        });
+        map.add(m1);
+        map.setFitView([m1]);
+
+
+        AMap.plugin(['AMap.Autocomplete', 'AMap.PlaceSearch'], function () {
+            var autoOptions = {
+                city: "上海", //城市，默认全国
+                input: "keyword"//使用联想输入的input的id
+            };
+            autocomplete = new AMap.Autocomplete(autoOptions);
+            var placeSearch = new AMap.PlaceSearch({
+                city: '上海',
+                map: map
+            })
+            AMap.event.addListener(autocomplete, "select", function (e) {
+                //TODO 针对选中的poi实现自己的功能
+                placeSearch.setCity(e.poi.adcode);
+                placeSearch.search(e.poi.name);
+
+                placeSearch.getDetails(e.poi.id, function (status, result) {
+                    // 查询成功时，result即为对应的POI详情
+
+                    vue.poiList = result.poiList;
+                    console.log(result.poiList.pois[0].pname);
+                    vue.province = result.poiList.pois[0].pname;
+                    console.log(vue.poiList);
+                    // cinemaLng
+                    $("#cinemaLng").val(result.poiList.pois[0].location.lng).change();
+                    $("#cinemaLat").val(result.poiList.pois[0].location.lat).change();
+
+
+                    $("#a").val(result.poiList.pois[0].pname).change();
+
+                    if (result.poiList.pois[0].cityname == "上海市") {
+                        $("#b").val("上海城区").change();
+                    } else {
+                        $("#b").val(result.poiList.pois[0].cityname).change();
+                    }
+
+
+                    if (result.poiList.pois[0].photos.length > 1) {
+                        $("#img").attr("src", result.poiList.pois[0].photos[0].url).change();
+                        $("#cinemaImg").val(result.poiList.pois[0].photos[0].url).change();
+                    } else {
+                        $("#img").attr("src", " ").change();
+                    }
+
+                    // photos
+
+
+                    $("#tel").val(result.poiList.pois[0].tel).change();
+                    $("#c").val(result.poiList.pois[0].adname).change();
+
+                    $("#password").val(result.poiList.pois[0].address).change();
+
+                    form.render();
+
+                })
+                console.log(e)
+            });
+
+        });
+
+        form.on('select(a)', function (data) {
+            $("#a").val(data.value).change();
+
+            $("#keyword").val($("#a").val() + $("#b").val() + $("#c").val());
+            form.render();
+        })
+
+        form.on('select(b)', function (data) {
+            $("#b").val(data.value).change();
+            $("#keyword").val($("#a").val() + $("#b").val() + $("#c").val());
+            form.render();
+        })
+
+        form.on('select(c)', function (data) {
+            $("#c").val(data.value).change();
+            $("#keyword").val($("#a").val() + $("#b").val() + $("#c").val());
+            form.render();
+        });
+
+
+        $.get("/cinema/getAllCinameType", null, function (date) {
+
+
+            $.each(date, function (index, item) {
+                $("#brand").append(new Option(item.brandName, item.brandId));// 下拉菜单里添加元素
+            });
+
+            form.render('select'); //刷新select选择框渲染
+
+            var select = 'dd[lay-value=' + cinemaBrand + ']';
+            console.log(cinemaBrand);
+            $('#brand').siblings("div.layui-form-select").find('dl').find(select).click();
+
+        });
+
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            // 关闭弹出层
+            // layer.close(index);
+            var iframeIndex = parent.layer.getFrameIndex(window.name);
+
+            console.log(data);
+
+            $.post("/cinema/editCinema", data.field, function (date) {
+
+                if (date.result == "success") {
+                    layer.msg(date.msg);
+                    setTimeout(function () {
+                        var iframeIndex = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(iframeIndex);
+                        //刷新父页面
+                        window.parent.location.reload();
+                    }, 1000);
+                } else {
+                    layer.msg(date.msg);
+                }
+
+            }, "json")
+
+
+        });
+
+    });
+
+</script>
+<script src="distpicker.js" th:src="@{/js/distpicker-master/dist/distpicker.js}"></script>
+
+</body>
+</html>

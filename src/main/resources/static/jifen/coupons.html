@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <link href="unpan/blue/css/style.css" rel="stylesheet" type="text/css">
+    <link href="unpan/blue/css/account.css" rel="stylesheet" type="text/css">
+    <link href="unpan/blue/css/pager.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="unpan/dist/js/jquery.min.js"></script>
+    <script src="../js/layer/layer.js"></script>
+    <script src="../js/vue.js"></script>
+
+    <title>蜗牛时代 | 交易管理</title>
+</head>
+<body style="position: static;">
+<!--[if IE]>
+<script src="unpan/blue/js/html5shiv.js"></script>
+<![endif] -->
+<!-- top 部分 start-->
+<section class="top" id="topSection">
+    <div class="layout clearfix">
+        <ul class="fl topL">
+            <li class="weixin">
+                <a href="/business/HTML/index.html">
+                    微信公众号<span class="icon"></span>
+                    <img class="disNone" src="unpan/blue/src/code.jpg" alt="蜗牛积分">
+                </a>
+            </li>
+            <li class="cusmer">
+                <a href="#">
+                    咨询客服
+                    <span class="icon"></span>
+                </a>
+                <div class="cusmerQList disNone">
+                    <dl>
+                        <dt>您可能遇到的常见问题？</dt>
+                        <dd>
+                            <a href="#" target="_blank">蜗牛积分的公司介绍有么？</a>
+                            <a href="#" target="_blank">如何设置提现的电子钱包账户？</a>
+                            <a href="#" target="_blank">他的公司资质和运营是怎么样的？</a>
+                            <a href="#" target="_blank">关于投资和提现有什么费用吗？</a>
+                            <a href="#" target="_blank">我的密码忘记了怎么办？</a>
+                            <a href="#" target="_blank">投资利息从什么时候开始计算？</a>
+                            <a href="#" target="_blank">蜗牛积分的安全保障有哪些？</a>
+                        </dd>
+                    </dl>
+                    <div class="clearfix cusmerQFoot bgGreen">
+                        <span class="fl fcWhite">工作日 9:00-18:00</span>
+                        <a class="fr" href="#" target="_blank">在线咨询</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <ul class="fr topR">
+            <li><a href="#" target="_blank">当前IP：220.188.65.89</a></li>
+            <li><a href="#">中国未知城市</a></li>
+        </ul>
+    </div>
+</section>
+<!-- top 部分 end-->
+<!-- header start-->
+<div id="mainVue">
+    <button-counter flag="3"></button-counter>
+</div>
+<script src="js/main.js"></script>
+
+
+<div id="memberNav">
+    <div class="layout">
+        <ul>
+            <li class="curr">
+                <a href="#">交易中心</a>
+            </li>
+
+        </ul>
+    </div>
+</div>
+<!--用户中心导航 end-->
+
+<!--投资管理-->
+<div class="height18"></div>
+<div class="layout member">
+    <div class="mApp"></div>
+    <div class="borderGray bgWhite clearfix">
+        <div id="subnav">
+            <dl>
+                <dt><i></i>订单记录</dt>
+                <dd><a href="transaction.html">全部订单</a></dd>
+                <dd><a href="#">分红明细</a></dd>
+            </dl>
+            <dl>
+                <dt><i></i>优惠券</dt>
+                <dd class="curr"><a href="coupons.html">我的优惠券</a></dd>
+                <dd><a href="overCoupons.html">已失效优惠券</a></dd>
+            </dl>
+        </div>
+        <div id="memberMain">
+            <div class="title"><h4>查看优惠劵</h4></div>
+            <div class="height18"></div>
+            <div class="memberList clearfix">
+                <div class="tableClass">
+                    <table cellpadding="0" cellspacing="0" id="app">
+                        <thead>
+                        <tr>
+                            <th>详情</th>
+                            <th>适用影院</th>
+                            <th>适用影片</th>
+                            <th>过期时间</th>
+                            <th>操作</th>
+                        </tr>
+
+                        </thead>
+                        <tbody>
+                        <tr class="" v-for="coupon in coupons">
+                            <td v-text="coupon.couponName"></td>
+                            <td>
+                                <span v-if="coupon.cinemaId == null || coupon.cinemaId=='0'">
+                                    all
+                                </span>
+                                <span else>
+                                    {{coupon.cinemaName}}
+                                </span>
+                            </td>
+                            <td>
+
+                                 <span v-if="coupon.movieId == null || coupon.movieId=='0'">
+                                    all
+                                </span>
+                                <span else>
+                                    {{coupon.movieName}}
+                                </span>
+
+                            </td>
+                            <td v-text="coupon.couponDate"></td>
+                            <td>
+                                <button onclick="location.href='/business/HTML/dianying.html'">去使用</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+</div>
+
+
+<!--[if IE 6]>
+<script src=unpan/bule/js/png24.js></script>
+<script>
+    DD_belatedPNG.fix('*');
+</script>
+<![endif]-->
+
+<script type="text/javascript" src="unpan/blue/js/public.js"></script>
+
+<script type="text/javascript">
+
+</script>
+<footer class="bgBlack fc999">
+    <section class="aboutUs">
+        <div class="layout clearfix ">
+            <dl class="fl ml30">
+                <dt><span class="icon" style="background-color: #21398b"></span>关于我们</dt>
+                <dd><a href="#" target="_blank">蜗牛简介</a></dd>
+                <dd><a href="#" target="_blank">平台资质</a></dd>
+                <dd><a href="#" target="_blank">蜗牛荣誉</a></dd>
+                <dd><a href="#" target="_blank">帮助中心</a></dd>
+                <dd><a href="#" target="_blank">联系我们</a></dd>
+            </dl>
+            <dl class="fl">
+                <dt><span class="icon" style="background-color: #fda800"></span>平台服务</dt>
+                <dd><a href="#" target="_blank">蜗牛平台</a></dd>
+                <dd><a href="#" target="_blank">蜗牛社区</a></dd>
+            </dl>
+            <dl class="fl">
+                <dt><span class="icon bgGreen"></span>相关链接</dt>
+                <dd><a href="#" target="_blank">合作伙伴</a></dd>
+                <dd><a href="#" target="_blank">媒体链接</a></dd>
+            </dl>
+            <div class="line"></div>
+            <div class="fl service">
+                <p></p>
+                <h2>客服电话: 0579--85059659</h2><br>(工作时间：9:00-18:00)<p></p>
+            </div>
+        </div>
+    </section>
+</footer>
+</body>
+<script>
+    let vue = new Vue({
+        el: '#app',
+        data: {
+            a: 1,
+            coupons: [],
+            allMoney: 0,
+            orderCount: 0,
+        },
+        beforeMount: function () {
+            // `this` 指向 vm 实例
+            let _this = this;
+            let url = "/CouponController/getAllCoupon";
+
+            $.get(url, null, function (data) {
+                console.log(data);
+                _this.coupons = data;
+            })
+
+        }
+    });
+
+</script>
+</html>

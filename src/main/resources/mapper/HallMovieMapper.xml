@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pmsj.cinema.common.mapper.HallMovieMapper">
+    <resultMap id="BaseResultMap" type="com.pmsj.cinema.common.entity.HallMovie">
+        <id column="hall_movie_id" jdbcType="INTEGER" property="hallMovieId"/>
+        <result column="movie_id" jdbcType="INTEGER" property="movieId"/>
+        <result column="hall_id" jdbcType="INTEGER" property="hallId"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="fare_money" jdbcType="DECIMAL" property="fareMoney"/>
+    </resultMap>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hall_movie
+    where hall_movie_id = #{hallMovieId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.pmsj.cinema.common.entity.HallMovie">
+    insert into hall_movie (hall_movie_id, movie_id, hall_id, 
+      start_time, end_time, fare_money
+      )
+    values (#{hallMovieId,jdbcType=INTEGER}, #{movieId,jdbcType=INTEGER}, #{hallId,jdbcType=INTEGER}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{fareMoney,jdbcType=DECIMAL}
+      )
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="com.pmsj.cinema.common.entity.HallMovie">
+    update hall_movie
+    set movie_id = #{movieId,jdbcType=INTEGER},
+      hall_id = #{hallId,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      fare_money = #{fareMoney,jdbcType=DECIMAL}
+    where hall_movie_id = #{hallMovieId,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select hall_movie_id, movie_id, hall_id, start_time, end_time, fare_money
+    from hall_movie
+    where hall_movie_id = #{hallMovieId,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select hall_movie_id, movie_id, hall_id, start_time, end_time, fare_money
+    from hall_movie
+  </select>
+
+    <resultMap id="BaseResultMap2" type="com.pmsj.cinema.common.vo.HallMovieVo">
+        <id column="hall_movie_id" jdbcType="INTEGER" property="hallMovieId"/>
+        <result column="movie_id" jdbcType="INTEGER" property="movieId"/>
+        <result column="hall_id" jdbcType="INTEGER" property="hallId"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="fare_money" jdbcType="DECIMAL" property="fareMoney"/>
+        <result property="hallName" column="hall_name"/>
+        <result property="movieName" column="movie_name"/>
+        <result property="movieImg" column="movie_img"/>
+        <result property="movieImg" column="movie_img"/>
+        <result property="hallTypeName" column="ht_name"/>
+    </resultMap>
+
+
+    <select id="getHallMovies" resultMap="BaseResultMap2">
+        select * from hall
+        LEFT JOIN hall_movie
+        on hall_movie.hall_id = hall.hall_id
+        left join cinema
+        on cinema.cinema_id = hall.cinema_id
+        LEFT JOIN movie
+        on movie.movie_id = hall_movie.movie_id
+        LEFT JOIN hall_tpye
+        on hall_tpye.ht_id = hall.hall_type
+        where cinema.cinema_id = #{cinemaId}
+        and hall_movie.start_time &gt;= #{startTime}
+        and hall_movie.start_time &lt;= #{endTime}
+        <if test="cinemaId != '' and  movieId != null">
+            and movie.movie_id = #{movieId}
+        </if>
+        order by hall_movie.start_time desc
+    </select>
+    <select id="getHallMoviesByTime" resultType="java.lang.Integer">
+        select count(*) from hall_movie where hall_id = #{hallid}
+        and
+        /* 已有的开始时间 小于等于 当前的结束时间 并且 已有的结束时间 大于等于 当前的开始时间*/
+        start_time &lt;= #{endTime} and end_time &gt;= #{startTime}
+    </select>
+    <select id="getRecentTime" resultType="java.util.Date">
+        select min(hall_movie.start_time) from hall_movie
+        left join hall on hall.hall_id = hall_movie.hall_id
+        left join cinema on cinema.cinema_id = hall.cinema_id
+        where hall_movie.start_time > CURRENT_TIMESTAMP
+        <if test="cinemaId != null">
+            and cinema.cinema_id = #{cinemaId}
+        </if>
+        <if test="movieId != null">
+            and hall_movie.movie_id = #{movieId}
+        </if>
+    </select>
+
+
+</mapper>

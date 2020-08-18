@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pmsj.cinema.common.mapper.CinemaMapper">
+    <resultMap id="BaseResultMap" type="com.pmsj.cinema.common.entity.Cinema">
+        <id column="cinema_id" jdbcType="INTEGER" property="cinemaId"/>
+        <result column="cinema_name" jdbcType="VARCHAR" property="cinemaName"/>
+        <result column="cinema_phone" jdbcType="VARCHAR" property="cinemaPhone"/>
+        <result column="cinema_area" jdbcType="VARCHAR" property="cinemaArea"/>
+        <result column="cinema_location" jdbcType="VARCHAR" property="cinemaLocation"/>
+        <result column="cinema_brand" jdbcType="INTEGER" property="cinemaBrand"/>
+        <result column="cinema_img" jdbcType="VARCHAR" property="cinemaImg"/>
+        <result column="cinema_city" jdbcType="VARCHAR" property="cinemaCity"/>
+        <result column="cinema_lng" jdbcType="VARCHAR" property="cinemaLng"/>
+        <result column="cinema_lat" jdbcType="VARCHAR" property="cinemaLat"/>
+        <result column="cinema_province" jdbcType="VARCHAR" property="cinemaProvince"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cinema
+    where cinema_id = #{cinemaId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.pmsj.cinema.common.entity.Cinema">
+    insert into cinema (cinema_id, cinema_name, cinema_phone, 
+      cinema_area, cinema_location, cinema_brand, 
+      cinema_img, cinema_city, cinema_lng, 
+      cinema_lat, cinema_province)
+    values (#{cinemaId,jdbcType=INTEGER}, #{cinemaName,jdbcType=VARCHAR}, #{cinemaPhone,jdbcType=VARCHAR}, 
+      #{cinemaArea,jdbcType=VARCHAR}, #{cinemaLocation,jdbcType=VARCHAR}, #{cinemaBrand,jdbcType=INTEGER}, 
+      #{cinemaImg,jdbcType=VARCHAR}, #{cinemaCity,jdbcType=VARCHAR}, #{cinemaLng,jdbcType=VARCHAR}, 
+      #{cinemaLat,jdbcType=VARCHAR}, #{cinemaProvince,jdbcType=VARCHAR})
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="com.pmsj.cinema.common.entity.Cinema">
+    update cinema
+    set cinema_name = #{cinemaName,jdbcType=VARCHAR},
+      cinema_phone = #{cinemaPhone,jdbcType=VARCHAR},
+      cinema_area = #{cinemaArea,jdbcType=VARCHAR},
+      cinema_location = #{cinemaLocation,jdbcType=VARCHAR},
+      cinema_brand = #{cinemaBrand,jdbcType=INTEGER},
+      cinema_img = #{cinemaImg,jdbcType=VARCHAR},
+      cinema_city = #{cinemaCity,jdbcType=VARCHAR},
+      cinema_lng = #{cinemaLng,jdbcType=VARCHAR},
+      cinema_lat = #{cinemaLat,jdbcType=VARCHAR},
+      cinema_province = #{cinemaProvince,jdbcType=VARCHAR}
+    where cinema_id = #{cinemaId,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select cinema_id, cinema_name, cinema_phone, cinema_area, cinema_location, cinema_brand, 
+    cinema_img, cinema_city, cinema_lng, cinema_lat, cinema_province
+    from cinema
+    where cinema_id = #{cinemaId,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select cinema_id, cinema_name, cinema_phone, cinema_area, cinema_location, cinema_brand, 
+    cinema_img, cinema_city, cinema_lng, cinema_lat, cinema_province
+    from cinema
+  </select>
+
+
+    <resultMap id="BaseResultMapVo" type="com.pmsj.cinema.common.vo.CinemaVo">
+        <id column="cinema_id" jdbcType="INTEGER" property="cinemaId"/>
+        <result column="cinema_name" jdbcType="VARCHAR" property="cinemaName"/>
+        <result column="cinema_phone" jdbcType="VARCHAR" property="cinemaPhone"/>
+        <result column="cinema_area" jdbcType="VARCHAR" property="cinemaArea"/>
+        <result column="cinema_location" jdbcType="VARCHAR" property="cinemaLocation"/>
+        <result column="cinema_brand" jdbcType="INTEGER" property="cinemaBrand"/>
+        <result column="cinema_img" jdbcType="VARCHAR" property="cinemaImg"/>
+        <result column="cinema_city" jdbcType="VARCHAR" property="cinemaCity"/>
+        <result column="cinema_lng" jdbcType="VARCHAR" property="cinemaLng"/>
+        <result column="cinema_lat" jdbcType="VARCHAR" property="cinemaLat"/>
+        <result column="cinema_province" jdbcType="VARCHAR" property="cinemaProvince"/>
+        <result column="brand_name" jdbcType="VARCHAR" property="brandName"/>
+
+    </resultMap>
+    <select id="getAllCinemaVo" resultMap="BaseResultMapVo">
+        select * from cinema c
+        left join brand b
+        on b.brand_id = c.cinema_brand
+        <where>
+            <if test="cinemaBrand != '' and cinemaBrand != null">
+                and cinema_brand = #{cinemaBrand}
+            </if>
+
+            <if test="cinemaName != '' and cinemaName != null">
+                and cinema_name like '%${cinemaName}%'
+            </if>
+
+            <if test="cinemaProvince != '' and cinemaProvince != null">
+                and cinema_province = #{cinemaProvince}
+            </if>
+
+            <if test="cinemaCity != '' and cinemaCity != null">
+                and cinema_city = #{cinemaCity}
+            </if>
+
+            <if test="cinemaArea != '' and cinemaArea != null">
+                and cinema_area = #{cinemaArea}
+            </if>
+
+        </where>
+    </select>
+    <select id="getAllCinemaByAll" resultMap="BaseResultMapVo">
+        select DISTINCT cinema.* from cinema
+        left join hall
+        on hall.cinema_id = cinema.cinema_id
+        <where>
+            <if test="area != '' and area != null">
+                and cinema.cinema_area = #{area}
+            </if>
+            <if test="brand != '' and brand != null">
+                and cinema.cinema_brand = #{brand}
+            </if>
+            <if test="province != '' and province != null">
+                and cinema.cinema_province = #{province}
+            </if>
+            <if test="hallType != '' and hallType != null">
+                and hall.hall_type = #{hallType}
+            </if>
+
+        </where>
+
+    </select>
+    <select id="getAllCinemaByMovie" resultMap="BaseResultMapVo">
+        select DISTINCT cinema.* from hall_movie
+        left join hall
+        on hall_movie.hall_id = hall.hall_id
+        left join cinema
+        on hall.cinema_id = cinema.cinema_id
+        <where>
+            hall_movie.movie_id = #{movieId}
+            and hall_movie.start_time &gt;= #{date}
+
+            <if test="area != '' and area != null">
+                and cinema.cinema_area = #{area}
+            </if>
+            <if test="brand != '' and brand != null">
+                and cinema.cinema_brand = #{brand}
+            </if>
+            <if test="province != '' and province != null">
+                and cinema.cinema_province = #{province}
+            </if>
+            <if test="hallType != '' and hallType != null">
+                and hall.hall_type = #{hallType}
+            </if>
+        </where>
+
+    </select>
+    <select id="getMinMoneyByCinemaId" resultType="java.lang.Double">
+        select min(hall_movie.fare_money) from hall_movie
+        LEFT JOIN hall
+        on hall.hall_id = hall_movie.hall_id
+        left join cinema
+        ON cinema.cinema_id = hall.cinema_id
+        where cinema.cinema_id = #{cinemaId}
+        and hall_movie.start_time >= CURDATE()
+
+    </select>
+    <select id="getCountCinemaByLngAndLat" resultType="java.lang.Integer">
+         select count(*) from cinema
+         where cinema_lat = #{cinemaLat}
+         and cinema_lng = #{cinemaLng}
+    </select>
+    <select id="getCinemaByOrderId" resultMap="BaseResultMap">
+        select DISTINCT cinema.* from `order`
+        join hall_movie on hall_movie.hall_movie_id = `order`.hall_movie_id
+        JOIN hall on hall.hall_id = hall_movie.hall_id
+        join cinema on cinema.cinema_id = hall.cinema_id
+        where `order`.order_id = #{id}
+    </select>
+
+</mapper>

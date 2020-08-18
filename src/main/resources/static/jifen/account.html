@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <link href="unpan/blue/css/style.css" rel="stylesheet" type="text/css">
+    <link href="unpan/blue/css/account.css" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <script type="text/javascript" src="unpan/dist/js/jquery.min.js"></script>
+    <script src="https://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+    <script src="https://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+    <script src="https://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
+    <script src="../js/layer/layer.js"></script>
+    <script>
+        $.validator.setDefaults({
+            submitHandler: function () {
+                layui.msg("提交事件!");
+            }
+        });
+        $().ready(function () {
+            $("#commentForm").validate();
+        });
+    </script>
+
+    <script src="../js/layer/layer.js"></script>
+    <script src="../js/vue.js"></script>
+    <title>蜗牛时代 | 账户管理</title>
+    <style>
+        .passLeft, .passRight {
+            display: inline-block;
+            padding: 5px;
+            /*border: 1px solid #0C0C0C;*/
+        }
+
+        .passLeft {
+            width: 5%;
+        }
+
+        .passRight {
+            width: 89%;
+        }
+    </style>
+</head>
+<body style="position: static;">
+<!--[if IE]>
+<script src="blue/js/html5shiv.js"></script>
+<![endif] -->
+<!-- top 部分 start-->
+<section class="top" id="topSection">
+    <div class="layout clearfix">
+        <ul class="fl topL">
+            <li class="weixin">
+                <a href="#">
+                    微信公众号
+                    <span class="icon"></span>
+                    <!--		<img class="disNone" src="unpan/blue/src/code.jpg" alt="蜗牛积分">-->
+                </a>
+            </li>
+            <li class="cusmer">
+                <a href="#">
+                    咨询客服
+                    <span class="icon"></span>
+                </a>
+                <div class="cusmerQList disNone">
+                    <dl>
+                        <dt>您可能遇到的常见问题？</dt>
+                        <dd>
+                            <a href="#" target="_blank">蜗牛积分的公司介绍有么？</a>
+                            <a href="#" target="_blank">如何设置提现的电子钱包账户？</a>
+                            <a href="#" target="_blank">他的公司资质和运营是怎么样的？</a>
+                            <a href="#" target="_blank">关于投资和提现有什么费用吗？</a>
+                            <a href="#" target="_blank">我的密码忘记了怎么办？</a>
+                            <a href="#" target="_blank">投资利息从什么时候开始计算？</a>
+                            <a href="#" target="_blank">蜗牛积分的安全保障有哪些？</a>
+                        </dd>
+                    </dl>
+                    <div class="clearfix cusmerQFoot bgGreen">
+                        <span class="fl fcWhite">工作日 9:00-18:00</span>
+                        <a class="fr" href="#" target="_blank">在线咨询</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <ul class="fr topR">
+            <li><a href="#" target="_blank">当前IP：220.188.65.89</a></li>
+            <li><a href="#">中国未知城市</a></li>
+        </ul>
+    </div>
+</section>
+<!-- top 部分 end-->
+<!-- header start-->
+<header id="topHeader">
+    <div class="layout clearfix">
+        <a class="logo" href="#">
+            <img class="fl" id="topLogo" src="https://www.woniuxy.com/train/img/logo_text.png
+" style="height: 74px" alt="让投资实现梦想">
+        </a>
+        <!-- 导航菜单 -->
+        <nav class="fl">
+            <ul class="fl menu">
+                <li>
+                    <a href="index.html" rel="nofollow">首&nbsp;&nbsp;&nbsp;页</a>
+                </li>
+
+                <li>
+                    <a href="transaction.html" rel="nofollow">交易管理</a>
+                </li>
+                <li class="curr">
+                    <a href="account.html" rel="nofollow">账户管理</a>
+                </li>
+
+            </ul>
+        </nav>
+        <!-- 用户已登录的显示信息 -->
+        <div class="fr user">
+            <div class="navList">
+                <div class="userTitle">
+                    <a href="#" id="getUserName1">{{accountName}}<span class="icon"></span></a>
+                </div>
+                <ul class="list bgWhite shadow ">
+                    <li><a href="#" target="_blank">我要充值</a></li>
+                    <li><a href="#">我要提现</a></li>
+                    <li><a href="#">我的投资</a></li>
+                    <li><a href="#">推荐好友</a></li>
+                    <li><a href="#">我的奖励</a></li>
+                    <li><a href="#" class="noBorder">退出登录</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+<div id="memberNav">
+    <div class="layout">
+        <ul>
+            <li class="curr"><a href="#">个人资料</a></li>
+        </ul>
+    </div>
+</div>
+<!--用户中心导航 end-->
+<!--用户中心首页-->
+<div id="mUserInfo" class="member" style="float: none;">
+    <div class="layout">
+        <div class="info">
+            <div class="touxiang">
+                <a href="#" target="_blank"><img src="temp/0f4cbe3a9e4082f35d5c2f896c6aae83.png" alt="邀请码"
+                                                 style="width: 80px;height: 80px"/></a>
+            </div>
+            <div class="top" id="getUserName2">
+                欢迎您，<span class="fontGreen">{{accountName}}</span>可用电子积分
+                <a href="#" class="money">{{points}}</a> 元
+                <i class="helpTipsIcon" style="background-position: 0px -180px;">
+                    <div class="helpTipsText" style="top: -53px; display: none;">
+                        用于购买产品,并获得等值原始积分,不能提现
+                    </div>
+                    <i class="helpTipsI" style="display: none;"></i>
+                </i>
+            </div>
+            <div class="bottom">
+                <div class="datum">
+                    <p>
+                        <a href="#" class="aGray fr">提升</a>
+                        资料完善度：
+                        <a href="#" class="aGreen">100%</a>
+                    </p>
+                    <div class="progress">
+                        <span style="width:100%"></span>
+                    </div>
+                </div>
+                <div class="icon">
+                    <a href="#" class="cC" title="手机已绑定"></a>
+                    <a href="#" class="aA" title="身份已认证"></a>
+                    <a href="#" class="bB" title="钱包已绑定"></a>
+                    <a href="#" class="eE" title="交易密码已设置"></a>
+                </div>
+            </div>
+            <div class="bnt">
+                <a href="#" class="aLink1">充值</a><a href="#" class="aLink2">提现</a>
+            </div>
+            <div class="img">
+                <a href="#">
+                    <img style="height: 113px" src="unpan/blue/src/level/0.jpg" alt=""/>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--用户基本信息 end-->
+<!--用户资金-->
+<div class="height18">
+</div>
+<div class="layout member" id="userMoney">
+    <!---start---->
+    <div class="clearfix borderGray bgWhite ">
+        <div class="moneyE">
+            <form id="update">
+                <div class="li">
+                    昵称：<input v-model="user.username" name="userName" value=""><br>
+                    性别：<input v-model="user.sex" name="userGender" type="radio" value="男"> 男 <input v-model="user.sex"
+                                                                                                    type="radio"
+                                                                                                    name="userGender"
+                                                                                                    value="女"> 女<br>
+                    个性签名：<input type="text" v-model="user.sig" value="" name="userAutograph">
+                    <p></p>
+                    <input type="hidden" name="userAccount" :value="user.accountname">
+                    <button @click="updateUser" type="button">提交</button>
+                </div>
+                <div class="li">
+                    邮箱：<input v-model="user.email" value="" name="userEmail" id="userEmail"><span id="tip1"></span><br>
+                    手机：<input v-model="user.phone" value="" name="userPhone" id="userPhone"><span id="tip2"></span><br>
+                    出生日期：<input v-model="user.birthday" value="" type="date" name="userBirthday"><br>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="height18">
+</div>
+<div class="layout member" id="userP">
+    <div class="clearfix borderGray bgWhite">
+        <form id="photo">
+            <div class="title" style="width: 100%">
+                <h4>头像修改</h4>
+            </div>
+            <div class="height18">
+            </div>
+            <div class="tableC clearfix">
+                <input type="file" name="image" id="image" class="layui-input" onchange="show(this)">
+                <div class="layui-input-block">
+                    <img id="img" style="height: 80px;width: 80px;border-radius: 100%">
+                </div>
+            </div>
+            <div class="passLeft" style="margin-left: 70px">
+                <button @click="updatePhoto" type="button" class="updatePhoto">提交</button>
+            </div>
+            <div class="height18">
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="height18">
+</div>
+<div class="layout member" id="userP">
+    <div class="clearfix borderGray bgWhite">
+        <div class="w1" style="width: 100%">
+            <div class="title" style="width: 100%">
+                <h4>密码修改</h4>
+            </div>
+            <div class="height18">
+
+            </div>
+            <div class="tableC clearfix" id="userCode">
+                <div class="passLeft">密码:</div>
+                <div class="passRight"><input name="password" v-model:password="password"><span id="tip3"></span><br>
+                </div>
+                <div class="passLeft">验证:</div>
+                <div class="passRight"><input name="code" v-model:code="code"><span id="tip4"></span></div>
+                <br>
+                <!-- <button @click="getCode" style="margin-top: 10px;margin-left: 80px">发送验证码</button>-->
+                <input type="button" id="getCode" value="获取邮箱动态码" onclick="getCode(this)"
+                       style="margin-top: 10px;margin-left: 80px">
+                <div class="passLeft">
+                    <button @click="updatePass">提交</button>
+                </div>
+
+            </div>
+            <div class="height18">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--用户资金 end-->
+<!--用户产品-->
+<div class="height18">
+</div>
+<div class="layout member" id="userP">
+    <div class="clearfix borderGray bgWhite">
+        <div class="w1" style="width: 100%">
+            <div class="title" style="width: 100%">
+                <h4>最近消费</h4>
+            </div>
+            <div class="height18">
+            </div>
+            <div class="tableC clearfix">
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>
+                            类型
+                        </th>
+                        <th>
+                            笔数
+                        </th>
+                        <th>
+                            总额
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <a href="#" class="aGreen">总业绩</a>
+                        </td>
+                        <td>
+                            0
+                        </td>
+                        <td>
+                            0.00元
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#" class="aOran">小区业绩</a>
+                        </td>
+                        <td>
+                            0
+                        </td>
+                        <td>
+                            0.00元
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="height18">
+            </div>
+        </div>
+    </div>
+</div>
+<!--[if IE 6]>
+<script src="unpan/bule/js/png24.js"></script>
+<script>
+    DD_belatedPNG.fix('*');
+</script>
+<![endif]-->
+<script type="text/javascript" src="unpan/blue/js/public.js"></script>
+<script type="text/javascript">
+</script>
+<footer class="bgBlack fc999">
+    <section class="aboutUs">
+        <div class="layout clearfix ">
+            <dl class="fl ml30">
+                <dt><span class="icon" style="background-color: #21398b"></span>关于我们</dt>
+                <dd><a href="#" target="_blank">蜗牛简介</a></dd>
+                <dd><a href="#" target="_blank">平台资质</a></dd>
+                <dd><a href="#" target="_blank">蜗牛荣誉</a></dd>
+                <dd><a href="#" target="_blank">帮助中心</a></dd>
+                <dd><a href="#" target="_blank">联系我们</a></dd>
+            </dl>
+            <dl class="fl">
+                <dt><span class="icon" style="background-color: #fda800"></span>平台服务</dt>
+                <dd><a href="#" target="_blank">蜗牛平台</a></dd>
+                <dd><a href="#" target="_blank">蜗牛社区</a></dd>
+            </dl>
+            <dl class="fl">
+                <dt><span class="icon bgGreen"></span>相关链接</dt>
+                <dd><a href="#" target="_blank">合作伙伴</a></dd>
+                <dd><a href="#" target="_blank">媒体链接</a></dd>
+            </dl>
+            <div class="line">
+            </div>
+            <div class="fl service">
+                <p>
+                </p>
+                <h2>客服电话: 0579--85059659</h2>
+                <br>
+                (工作时间：9:00-18:00)
+                <p>
+                </p>
+            </div>
+        </div>
+    </section>
+</footer>
+<script type="text/javascript">
+    var app1 = new Vue({
+        el: '#getUserName1',
+        data: {
+            accountName: '',
+        },
+    });
+    var app2 = new Vue({
+        el: '#getUserName2',
+        data: {
+            accountName: "",
+            points: '',
+        },
+    });
+    var app3 = new Vue({
+        el: '#userCode',
+        data: {
+            password: '',
+            email: '',
+            code: '',
+        },
+        methods: {
+            updatePass: function () {
+                layer.confirm('确认修改吗？', {
+                    btn: ['确认', '取消'], //按钮
+                    title: '修改密码'
+                }, function () {
+                    if (app3.password != "") {
+                        if (app3.code != "") {
+                            $.post("/user/updatePass", "verifycode=" + app3.code + "&password=" + app3.password + "&email=" + app3.email, function (data) {
+                                if (true == data) {
+                                    layer.msg("修改成功!")
+                                } else {
+                                    layer.msg("修改失败!")
+                                }
+                            }, "json")
+                        } else {
+                            layer.msg("验证码不能为空!")
+                        }
+                    } else {
+                        layer.msg("密码不能为空!")
+                    }
+                })
+            }
+        }
+    });
+    var app4 = new Vue({
+        el: '#userMoney',
+        data: {
+            user: {
+                username: "",
+                accountname: '',
+                sex: '',
+                sig: '',
+                email: '',
+                phone: '',
+                birthday: '',
+                photo: ''
+            },
+        },
+        beforeMount: function () {
+            $.post("/user/selectUser", null, function (data) {
+                app4.user.username = data.userName;
+                app4.user.accountname = data.userAccount;
+                app4.user.sex = data.userGender;
+                app4.user.sig = data.userAutograph;
+                app4.user.email = data.userEmail;
+                app4.user.phone = data.userPhone;
+                app4.user.birthday = data.userBirthday;
+                app4.user.photo = data.userPhoto;
+                app1.accountName = data.userAccount;
+                app2.accountName = data.userAccount;
+                app2.points = data.userPoints;
+                app3.email = data.userEmail;
+            }, "json")
+        },
+        methods: {
+            updateUser: function () {
+                var reg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+                layer.confirm('确认购修改？', {
+                    btn: ['确认', '取消'], //按钮
+                    title: '修改用户信息'
+                }, function () {
+                    if (reg.test(app4.user.email)) {
+                        if (/^1[3456789]\d{9}$/.test(app4.user.phone)) {
+                            $.post("/user/updateUser?" + $("#update").serialize(), "photo=" + app4.user.photo, function (data) {
+                                if (true == data) {
+                                    layer.msg("修改成功!")
+                                } else {
+                                    layer.msg("修改失败!")
+                                }
+                            }, "json")
+                        } else {
+                            layer.msg("手机号格式不正确!")
+                        }
+                    } else {
+                        layer.msg("邮箱格式不正确!")
+                    }
+                })
+            }
+        }
+    });
+    var emailKey = document.getElementById('userEmail');
+    emailKey.onkeyup = function () {
+        var emailValue = emailKey.value;
+        var reg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+        <!-- 对比两次输入的密码 -->
+        if (reg.test(emailValue)) {
+            document.getElementById("tip1").innerHTML = "<font color='green'>邮箱格式正确</font>";
+        } else {
+            document.getElementById("tip1").innerHTML = "<font color='red'>邮箱格式不正确</font>";
+        }
+    }
+    var phone = document.getElementById('userPhone');
+    phone.onkeyup = function () {
+        var ph = phone.value;
+        if (/^1[3456789]\d{9}$/.test(ph)) {
+            document.getElementById("tip2").innerHTML = "<font color='green'>手机格式正确</font>";
+        } else {
+            document.getElementById("tip2").innerHTML = "<font color='red'>手机格式不正确</font>";
+        }
+    }
+    $(".updatePhoto").click(function (data) {
+        var fields = $(data.form).serialize()
+        let formData = new FormData($("#photo")[0]);
+        formData.append("image", $("#image")[0].files[0]);
+        layer.confirm('确认购修改？', {
+            btn: ['确认', '取消'], //按钮
+            title: '修改用户头像'
+        }, function () {
+            $.ajax({
+                url: '/user/updatePhoto?' + fields, /*接口域名地址*/
+                type: 'post',
+                data: formData,   //发送的数据，使用的是JSON
+                dataType: 'json',//服务器端返回的数据类型
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    layer.msg("修改成功!")
+                },
+                error: function (data) {
+                    layer.msg("修改失败!")
+                }
+            });
+        })
+    })
+    var wait = 60;
+
+    function getCode(o) {
+        var e = document.getElementById('userEmail').value;
+        //发送验证码
+        if (e != "") {
+            if (wait == 60) {
+                //请求后台获取数据、
+                $.post('/user/getCode', 'email=' + e, function (data) {
+                }, 'json');
+            }
+            if (wait == 0) {
+                o.removeAttribute('disabled');//禁用
+                o.value = '重新发送';
+                wait = 60;
+            } else {
+                o.setAttribute('disabled', true);
+                o.value = "已发送(" + wait + ")";
+                wait--;
+                setTimeout(function () {
+                    getCode(o)
+                }, 1000);
+            }
+        }
+    }
+</script>
+<!--//图片的回显-->
+<script>
+    function show(file) {
+        var reader = new FileReader();	// 实例化一个FileReader对象，用于读取文件
+        var img = document.getElementById('img'); 	// 获取要显示图片的标签
+
+        //读取File对象的数据
+        reader.onload = function (evt) {
+            img.width = "50px";
+            img.height = "50px";
+            img.src = evt.target.result;
+        }
+        reader.readAsDataURL(file.files[0]);
+    }
+</script>
+</body>
+</html>

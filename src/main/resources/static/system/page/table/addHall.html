@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>添加品牌</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/public.css" media="all">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+
+
+        .wrapper {
+            height: 100%;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+
+        .cinema-wrapper {
+            height: 100%;
+        }
+
+        .title {
+            text-align: left;
+        }
+
+        .seat-wrapper {
+            height: 1000px;
+            width: 800px;
+            border: 1px dotted #c5c5c5;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .screen {
+            margin: 0 auto;
+            height: 30px;
+            width: 300px;
+            background-color: #e3e3e3;
+            border-radius: 0 0 30px 30px;
+            color: #585858;
+            line-height: 30px;
+            text-align: center;
+        }
+
+        .inner-seat-wrapper {
+            position: absolute;
+            top: 120px;
+            bottom: 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .seat {
+            float: left;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .inner-seat {
+            width: 80%;
+            height: 80%;
+            cursor: pointer;
+        }
+
+        .selected-seat {
+            background: url('../IMG/selected.png') center center no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .unselected-seat {
+            background: url('../IMG/unselected.png') center center no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .non-seat {
+            background: url('../IMG/nonseat.jpg') center center no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .bought-seat {
+            background: url('../IMG/bought.png') center center no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .screen-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 5px;
+            font-size: 13px;
+            border-radius: 5px;
+            top: 50px;
+            background-color: #f6f6f6;
+            color: #636363;
+            border: 1px solid #b1b1b1;
+        }
+
+        .mid-line {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 100%;
+            width: 1px;
+            height: 800px;
+            border-left: 1px dashed #919191;
+        }
+
+        .btn-wrapper {
+            margin: 20px auto;
+            width: 800px;
+            height: 30px;
+            text-align: left;
+        }
+
+        .btn-buy {
+            height: 100%;
+            line-height: 30px;
+            font-size: 14px;
+            border-radius: 5px;
+            padding: 0 5px;
+            background-color: #ffa349;
+            color: #ffffff;
+            display: inline-block;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .smart {
+            background-color: #39ac6a;
+        }
+
+        .illustration {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 35px;
+            width: 300px;
+        }
+
+        .illustration-img-wrapper {
+            width: 25px;
+            height: 25px;
+            position: relative;
+            top: 50%;
+            display: inline-block;
+            transform: translateY(-50%);
+            margin-left: 10px;
+        }
+
+        .illustration-text {
+            display: inline-block;
+            height: 100%;
+            line-height: 35px;
+            font-size: 14px;
+            position: relative;
+            top: -2px;
+        }
+
+        .seatInfo {
+            margin-top: 150px;
+            position: relative;
+            left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<script src="../../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script src="../../js/vue.js"></script>
+<script src="../../js/axios.min.js"></script>
+
+
+<!-- 影厅添加 -->
+<div id="yingting" class="content">
+    <div>
+        <form>
+            <div>影厅名称:<input v-model="hallName"></div>
+            <div> 行:<input type="number" v-model="seatRow" @blur="initSeatArray" min="5" max="20">
+                列:<input type="number" v-model="seatCol" @blur="initSeatArray" min="5" max="20"></div>
+            <div> 影厅类型:<select v-model="hallTypeId">
+                <option value="0">
+                    请选择
+                </option>
+                <option
+                        v-for="ht in hallType"
+                        v-if="hallType.length>0"
+                        :value="ht.htId"
+                >{{ht.htName}}
+                </option>
+            </select>
+                所属影院:<select v-model="cid">
+                    <option value="0">
+                        请选择
+                    </option>
+                    <option
+                            v-for="c in cinema"
+                            v-if="cinema.length>0"
+                            :value="c.cinemaId"
+                    >{{c.cinemaName}}
+                    </option>
+                </select>
+
+                </select></div>
+
+
+        </form>
+    </div>
+    <div class="wrapper">
+        <div class="cinema-wrapper">
+            <div class="btn-wrapper">
+                <div class="btn-buy" @click="resetSeat">
+                    重置座位
+                </div>
+            </div>
+            <div class="seat-wrapper" ref="seatWrapper">
+                <div class="screen">
+                    银幕
+                </div>
+                <div class="screen-center">
+                    银幕中央
+                    <div class="mid-line"></div>
+                </div>
+                <div class="inner-seat-wrapper" ref="innerSeatWrapper">
+                    <div v-for="(row,index) in seatArray" :key="index">
+                        <!--这里的v-if很重要，如果没有则会导致报错，因为seatArray初始状态为空-->
+                        <div v-for="(col,cindex) in row" :key="cindex"
+                             v-if="seatArray.length>0"
+                             class="seat"
+                             :style="{width:seatSize+'px',height:seatSize+'px'}">
+                            <div class="inner-seat"
+                                 @click="handleChooseSeat(index,cindex)"
+                                 :class="(seatArray[index][cindex]===0?'unselected-seat':'non-seat')">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="btn-wrapper">
+        <div class="btn-buy" @click="buySeat">
+            确定
+
+        </div>
+    </div>
+
+</div>
+<script>
+    new Vue({
+        el: '#yingting',
+        data: {
+            //影院座位的二维数组,-1为非座位，0为未购座位，1为已选座位(绿色),2为已购座位(红色)
+            seatArray: [],
+            //影院座位行数seatRow:10
+            seatRow: 10,
+            //影院座位列数seatCol:20,
+            seatCol: 20,
+            //座位尺寸
+            seatSize: '',
+            //空白位置
+            nonSeatPlace: [],
+            //影院信息
+            cinema: [],
+            //影厅类型
+            hallType: [],
+            //影厅Id
+            hallTypeId:'',
+            //影院Id
+            cid:'',
+            //影院名称
+            hallName:''
+        },
+        watch: {
+            seatRow:{
+                handler: function(val,oldval){
+                    if(val>20){
+                        this.seatRow=20;
+                    }
+                    if(val<5){
+                        this.seatRow=5;
+                    }
+                },
+                immediate: true
+
+            },
+            seatCol:{
+                handler: function(val,oldval){
+
+                    if(val>20){
+                        this.seatCol=20;
+                        this.nonSeatPlace =[];
+                    }
+                    if(val<5){
+                        this.seatCol=5;
+                        this.nonSeatPlace =[];
+                    }
+                },
+                immediate: true
+            }
+        },
+        created(){
+            //如果没有这句代码，select中初始化会是空白的，默认选中就无法实现
+            this.cid = 0;
+            this.hallTypeId = 0;
+        },
+        methods: {
+
+
+            //重置座位
+            resetSeat: function () {
+                //将所有座位的值变为0
+                let oldArray = this.seatArray.slice();
+                for (let i = 0; i < this.seatRow; i++) {
+                    for (let j = 0; j < this.seatCol; j++) {
+                        oldArray[i][j] = 0
+
+                    }
+                }
+                this.nonSeatPlace = [];
+                console.log(this.nonSeatPlace);
+                this.seatArray = oldArray;
+            },
+            //选定且购买座位
+            buySeat: function () {
+                if (this.nonSeatPlace.length>0&&this.hallName!=null&&this.hallTypeId!=0&&this.cid!=0&&this.seatCol>0&&this.seatRow>0)
+                {
+                let Url = '/hall/addHall';
+                axios({
+                    method: 'post',
+                    url: Url,
+                    data: {
+                        tickets: this.nonSeatPlace,
+                        hallName:this.hallName,
+                        hallType:this.hallTypeId,
+                        hallX:this.seatCol,
+                        hallY:this.seatRow,
+                        cinemaId:this.cid
+                    }
+                }).then((response) => {
+                    alert("SUCCESS")
+                    setTimeout(function(){
+                        var iframeIndex = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(iframeIndex);
+                        //刷新父页面
+                        window.parent.location.reload();
+                    }, 1000);
+
+
+                }).catch(function (error) {
+                    alert('失败')
+                });
+                }else {
+                    alert("参数不能为空")
+                }
+            },
+            //处理座位选择逻辑
+            handleChooseSeat: function (row, col) {
+                let seatValue = this.seatArray[row][col];
+                let newArray = this.seatArray;
+                //如果是已购座位，直接返回
+                if (seatValue === 2) return;
+                //如果是未选座位点击后变空白
+                if (seatValue === 0) {
+                    newArray[row][col] = -1;
+                    this.nonSeatPlace.push({
+                        "row": row,
+                        "col": col,
+                        "seatInfo": this.getSeatName(row, col)
+                    })
+
+                } else if (seatValue === -1) {
+                    newArray[row][col] = 0;
+                    let newNonSeatPlace = this.nonSeatPlace.filter((item) => {
+                        return item.seatInfo != this.getSeatName(row, col);
+                    });
+                    this.nonSeatPlace = newNonSeatPlace.slice();
+                    console.log(this.nonSeatPlace)
+                }
+                //必须整体更新二维数组，Vue无法检测到数组某一项更新,必须slice复制一个数组才行
+                this.seatArray = newArray.slice();
+
+            },
+            //初始座位数组
+            initSeatArray: function () {
+
+                let tempseatArray = new Array(parseInt(this.seatRow)).fill(0);
+                let seatArray = tempseatArray.map(() => new Array(parseInt(this.seatCol)).fill(0));
+
+                this.seatArray = [];
+                for (let i = 0; i < seatArray.length; i++) {
+                    this.seatArray.push(seatArray[i]);
+                }
+                this.seatSize = this.$refs.innerSeatWrapper
+                    ? parseInt(parseInt(window.getComputedStyle(this.$refs.innerSeatWrapper).width, 10) / this.seatCol, 10)
+                    : 0;
+                this.$refs.seatWrapper.style.height = this.seatSize * this.seatRow + 200 + 'px';
+
+            },
+            //初始数据
+            initParams: function () {
+                let Url = '/hall/initParams';
+                axios({
+                    method: 'post',
+                    url: Url,
+                }).then((response) => {
+                    this.cinema = response.data.cinema;
+                    this.hallType = response.data.hallType;
+                })
+
+            },
+            getSeatName: function (row, col) {
+                let x = row + 1;
+                let y = col + 1;
+
+                return "第" + x + "排第" + y + "列";
+            },
+
+
+        },
+        beforeMount: function () {
+            this.initParams();
+        },
+
+        mounted: function () {
+            this.initSeatArray();
+
+        },
+
+
+    });
+
+
+</script>
+</body>
+</html>

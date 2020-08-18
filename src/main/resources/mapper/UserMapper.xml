@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pmsj.cinema.common.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.pmsj.cinema.common.entity.User">
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="user_account" jdbcType="VARCHAR" property="userAccount"/>
+        <result column="user_password" jdbcType="VARCHAR" property="userPassword"/>
+        <result column="user_email" jdbcType="VARCHAR" property="userEmail"/>
+        <result column="user_status" jdbcType="INTEGER" property="userStatus"/>
+        <result column="user_phone" jdbcType="VARCHAR" property="userPhone"/>
+        <result column="user_gender" jdbcType="CHAR" property="userGender"/>
+        <result column="user_birthday" jdbcType="DATE" property="userBirthday"/>
+        <result column="user_autograph" jdbcType="VARCHAR" property="userAutograph"/>
+        <result column="user_points" jdbcType="INTEGER" property="userPoints"/>
+        <result column="user_photo" jdbcType="VARCHAR" property="userPhoto"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.pmsj.cinema.common.entity.User">
+    insert into user (user_id, user_name, user_account, 
+      user_password, user_email, user_status, 
+      user_phone, user_gender, user_birthday, 
+      user_autograph, user_points)
+    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userAccount,jdbcType=VARCHAR}, 
+      #{userPassword,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, #{userStatus,jdbcType=INTEGER}, 
+      #{userPhone,jdbcType=VARCHAR}, #{userGender,jdbcType=CHAR}, #{userBirthday,jdbcType=DATE}, 
+      #{userAutograph,jdbcType=VARCHAR}, #{userPoints,jdbcType=INTEGER})
+  </insert>
+    <insert id="register">
+    insert into user (user_account,user_password, user_email,user_phone, user_points,user_photo)
+    values (#{userAccount,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR},
+      #{userPhone,jdbcType=VARCHAR},0,#{userPhoto,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.pmsj.cinema.common.entity.User">
+    update user set user_name = #{userName,jdbcType=VARCHAR},
+      user_account = #{userAccount,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      user_email = #{userEmail,jdbcType=VARCHAR},
+      user_status = #{userStatus,jdbcType=INTEGER},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      user_gender = #{userGender,jdbcType=CHAR},
+      user_birthday = #{userBirthday,jdbcType=DATE},
+      user_autograph = #{userAutograph,jdbcType=VARCHAR},
+      user_points = #{userPoints,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+    <update id="updatePass">
+    update user set user_password = #{userPassword,jdbcType=VARCHAR} where user_email = #{userEmail,jdbcType=VARCHAR}
+    </update>
+    <update id="updateUser">
+ update user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_email = #{userEmail,jdbcType=VARCHAR},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      user_gender = #{userGender,jdbcType=CHAR},
+      user_birthday = #{userBirthday,jdbcType=DATE},
+      user_autograph = #{userAutograph,jdbcType=VARCHAR}
+    where  user_account = #{userAccount,jdbcType=VARCHAR}
+</update>
+    <update id="updatePhoto">
+         update user set user_photo = #{userPhoto,jdbcType=VARCHAR} where user_account = #{userAccount,jdbcType=VARCHAR}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select user_id, user_name, user_account, user_password, user_email, user_status, 
+    user_phone, user_gender, user_birthday, user_autograph, user_points
+    from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select user_id, user_name, user_account, user_password, user_email, user_status, 
+    user_phone, user_gender, user_birthday, user_autograph, user_points
+    from user
+  </select>
+    <select id="getUserAllMoney" resultType="java.lang.Double">
+        select sum(order_total_discounts_cash) from `order` where user_id =  #{i} and order_status =2
+    </select>
+    <select id="getUserAllOrderCount" resultType="java.lang.Long">
+        select count(*) from `order` where user_id = #{i} and order_status = 2
+    </select>
+
+    <select id="selectUser" resultMap="BaseResultMap">
+    select * from user
+    where user_account = #{userAccount,jdbcType=VARCHAR}
+    </select>
+    <select id="selectPhone" resultMap="BaseResultMap">
+        select * from user
+        where user_phone = #{userPhone,jdbcType=VARCHAR}
+    </select>
+    <select id="selectEmail" resultMap="BaseResultMap">
+        select * from user
+        where user_email = #{userEmail}
+    </select>
+    <select id="accountLogin" resultMap="BaseResultMap">
+    select * from user
+    where user_account = #{userAccount,jdbcType=VARCHAR}
+    and user_password = #{userPassword,jdbcType=VARCHAR}
+    </select>
+
+    <select id="emailLogin" resultMap="BaseResultMap">
+    select * from user
+    where user_email = #{userEmail,jdbcType=VARCHAR}
+    </select>
+</mapper>

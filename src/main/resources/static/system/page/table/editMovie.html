@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>添加品牌</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../lib/layui-v2.5.5/css/layui.css"
+          th:href="@{/system/lib/layui-v2.5.5/css/layui.css}" media="all">
+    <link rel="stylesheet" href="../../css/public.css" media="all" th:href="@{/system/css/public.css}">
+    <script src="jquery.min.js" th:src="@{/system/page/table/jquery.min.js}"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<form>
+    <div class="layui-form layuimini-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label required">电影名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="movieName" lay-verify="required" lay-reqtext="用户名不能为空" placeholder="请输入用户名"
+                       th:value="${movie.movieName}"
+                       value=""
+                       class="layui-input">
+                <tip>填写影片的名称。</tip>
+                <input type="hidden" name="movieId" th:value="${movie.movieId}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label required">外文名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="movieEname" th:value="${movie.movieEname}" placeholder="请输入外文名称"
+                       value=""
+                       class="layui-input">
+                <tip>填写影片的名称。</tip>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label required">类别</label>
+            <div class="layui-input-block" id="movieTypes">
+                <input th:each="movieTpye:${movieCheckedTpyes}" type="checkbox" name="movieTypes" checked
+                       th:value="${movieTpye.typeId}" th:title="${movieTpye.typeName}">
+                <input th:each="movieTpye:${movieTpyes}" type="checkbox" name="movieTypes"
+                       th:value="${movieTpye.typeId}" th:title="${movieTpye.typeName}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">上映时间</label>
+            <div class="layui-input-block">
+                <input name="movieReleaseTime" id="test1"
+                       placeholder="请输入上映年份"
+                       th:value="${#dates.format(movie.getMovieReleaseTime(),'yyyy-MM-dd')}"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">封面图片</label>
+            <div class="layui-input-block">
+                <input type="file" name="image" id="image" class="layui-input" onchange="show(this)">
+            </div>
+            <br>
+            <input type="hidden" th:value="${movie.movieImg}" name="movieImg">
+            <div class="layui-input-block">
+                <img src="" id="img" th:src="${movie.movieImg}"
+                     style="height: 140px;width: 100px;border: 1px solid red">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">时长/分钟</label>
+            <div class="layui-input-block">
+                <input type="" name="movieTime" th:value="${movie.getMovieTime()}" required
+                       placeholder="请输入时长"
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">影片地区</label>
+            <div class="layui-input-block">
+                <input type="text" name="movieArea" required placeholder="请输入地区" th:value="${movie.movieArea}"
+                       class="layui-input">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">简介</label>
+            <div class="layui-input-block">
+                <textarea name="movieInfo" class="layui-textarea"
+                          placeholder="简介信息">[[${movie.movieInfo}]]</textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <button type="button" class="layui-btn" id="addCast0">增加导演</button>
+                <button type="button" class="layui-btn" id="delCast0">删除导演</button>
+            </label>
+
+            <div class="layui-input-block" id="cast0">
+                <div th:each="cast0Checked : ${cast0s}">
+                    <select name='cast0'>
+
+                        <span th:each="cast : ${allCast}">
+                            <option th:value="${cast.actorId}" selected
+                                    th:if='${cast0Checked.actorId == cast.actorId}'>[[${cast.actorName}]]
+                          </option>
+
+                             <option th:value="${cast.actorId}"
+                                     th:if='${cast0Checked.actorId != cast.actorId}'>[[${cast.actorName}]]
+                            </option>
+                        </span>
+                    </select>
+                    <br>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <button type="button" class="layui-btn" id="addCast1">增加演员</button>
+                <button type="button" class="layui-btn" id="delCast1">删除演员</button>
+            </label>
+
+            <div class="layui-input-block" id="cast1">
+                <div th:each="cast1 : ${cast1s}">
+                    <select name='cast1'>
+                        <span th:each="cast : ${allCast}">
+                            <option th:value="${cast.actorId}" selected
+                                    th:if='${cast1.actorId ==cast.actorId}'>[[${cast.actorName}]]
+                            </option>
+
+                             <option th:value="${cast.actorId}"
+                                     th:if='${cast1.actorId != cast.actorId}'>[[${cast.actorName}]]
+                             </option>
+                        </span>
+
+                    </select>
+
+                    <input type="text" name="cast1Role" lay-verify="required" lay-reqtext="演员角色名不能为空" placeholder="角色"
+                           th:value="${cast1.movieActorRole}" class="layui-input"><br>
+                </div>
+
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+            </div>
+        </div>
+
+
+    </div>
+
+</form>
+<script src="../../lib/layui-v2.5.5/layui.js" th:src="@{/system/lib/layui-v2.5.5/layui.js}" charset="utf-8"></script>
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+
+        let cast0s = "";
+        let cast1s = "";
+
+
+        //获取所有导演列表
+        $.get("/Cast/getAllCast", function (data) {
+
+            data = data.data;
+            cast0s = "<div>"
+            cast0s += "<select name = 'cast0'>";
+            for (let i = 0; i < data.length; i++) {
+                cast0s += "<option value='" + data[i].actorId + "'>" + data[i].actorName + "</option>"
+            }
+            cast0s += "</select><br>";
+            cast0s += "</div>"
+
+        });
+
+
+        //获取所有演员列表
+        $.get("/Cast/getAllCast", function (data) {
+            data = data.data;
+            cast1s = "<div>"
+            cast1s += "<select name = 'cast1'>";
+            for (let i = 0; i < data.length; i++) {
+                cast1s += "<option value='" + data[i].actorId + "'>" + data[i].actorName + "</option>"
+            }
+            cast1s += "</select>";
+            cast1s += "<input type=\"text\" name=\"cast1Role\" lay-verify=\"required\" lay-reqtext=\"演员角色名不能为空\" placeholder=\"角色\" value=\"\" class=\"layui-input\"><br>\n"
+            cast1s += "</div>";
+
+        });
+
+
+        /*-----------------导演的添加----------------*/
+        //因为动态添加的元素class属性是无效的，所以不能用$('.add').click(function(){});
+        $('body').on('click', '#addCast0', function () {
+            $(cast0s).appendTo($('#cast0'));
+            form.render();
+        });
+        /*-----------------导演的删除----------------*/
+        $('body').on('click', '#delCast0', function () {
+            $("#cast0").children(":last").remove();
+            form.render();
+        });
+
+
+        /*-----------------演员的增加----------------*/
+        //因为动态添加的元素class属性是无效的，所以不能用$('.add').click(function(){});
+        $('body').on('click', '#addCast1', function () {
+            $(cast1s).appendTo($('#cast1'));
+            form.render();
+        });
+
+        /*-----------------演员的删除----------------*/
+        $('body').on('click', '#delCast1', function () {
+            $("#cast1").children(":last").remove();
+            form.render();
+        });
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+
+            console.log(data.field.movieName);
+            var fields = $(data.form).serialize()
+            let formData = new FormData($("#form")[0]);
+            formData.append("image", $("#image")[0].files[0]);
+            console.log(fields);
+
+            $.ajax({
+                url: '/movie/editMovieById?' + fields, /*接口域名地址*/
+                type: 'post',
+                data: formData,   //发送的数据，使用的是JSON
+                dataType: 'json',//服务器端返回的数据类型
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    layer.msg('修改成功');
+                }
+            });
+            var iframeIndex = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(iframeIndex);
+            //刷新父页面
+            window.parent.location.reload();
+
+            return false;
+        });
+
+    });
+</script>
+
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#test1' //指定元素
+        });
+    });
+</script>
+
+
+<!--//图片的回显-->
+<script>
+    function show(file) {
+        var reader = new FileReader();	// 实例化一个FileReader对象，用于读取文件
+        var img = document.getElementById('img'); 	// 获取要显示图片的标签
+
+        //读取File对象的数据
+        reader.onload = function (evt) {
+            img.width = "80";
+            img.height = "80";
+            img.src = evt.target.result;
+        }
+        reader.readAsDataURL(file.files[0]);
+    }
+</script>
+</body>
+</html>
