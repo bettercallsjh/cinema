@@ -19,7 +19,7 @@ spring:
     host: 119.45.53.114   #主机ip
     password: 1234     #连接的密码，如果没有密码请删除
 server:
-  port: 80
+  port: 7779
 
 
 mybatis:
